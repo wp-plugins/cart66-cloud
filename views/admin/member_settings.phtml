@@ -1,0 +1,12 @@
+<div class="wrap">
+  <h2>Cart66 Cloud Members Settings</h2>
+</div>
+
+<form action="options.php" method="post">
+  <?php 
+    settings_fields('ccm_access_notifications'); 
+    do_settings_sections('cart66_members');
+    submit_button(__('Save Settings'), 'cart66');
+  ?>
+</form>
+

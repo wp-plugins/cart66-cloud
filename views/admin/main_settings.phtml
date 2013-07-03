@@ -1,0 +1,86 @@
+<div class="wrap">
+  <div id="icon-options-general" class="icon32"><br/></div>
+
+  <h2>Cart66 Cloud Settings</h2>
+
+  <form action="" method="post">
+    <?php wp_nonce_field('save_settings', 'cc_nonce'); ?>
+    <input type="hidden" name="cc_task" value="admin_save_settings">
+
+    <table class="form-table">
+      <tr valign="top">
+        <th scope="row"><label for="cc_secret_key"><?php _e('Cart66 Cloud Secret Key', 'cart66'); ?></label></th>
+        <td><input name="cc_settings[cc_secret_key]" type="text" id="cc_secret_key" value="<?php echo get_site_option('cc_secret_key'); ?>" class="regular-text" /></td>
+      </tr>
+      <tr valign="top">
+        <th scope="row"><label for="cc_redirect_type"><?php _e('Add to cart redirect', 'cart66'); ?></label></th>
+        <td>
+          <fieldset><legend class="screen-reader-text"><span><?php _e('After adding a product to the cart', 'cart66'); ?></span></legend>
+            <label title="stay">
+              <input type="radio" name="cc_settings[cc_redirect_type]" id="cc_redirect_type_stay" value="stay" <?php echo $redirect_type  == 'stay' ? 'checked="checked"' : ''; ?>>
+              <span><?php _e('Stay on same page', 'cart66'); ?></span>
+            </label>
+            <br/>
+            <label title="stay on same page with ajax add to cart">
+              <input type="radio" name="cc_settings[cc_redirect_type]" id="cc_redirect_type_stay_ajax" value="stay_ajax" <?php echo $redirect_type  == 'stay_ajax' ? 'checked="checked"' : ''; ?>>
+              <span><?php _e('Stay on same page with ajax add to cart', 'cart66'); ?></span>
+            </label>
+            <br/>
+            <label title="view cart">
+              <input type="radio" name="cc_settings[cc_redirect_type]" id="cc_redirect_type_view_cart" value="view_cart" <?php echo $redirect_type  == 'view_cart' ? 'checked="checked"' : ''; ?>>
+              <span><?php _e('Go to view cart page', 'cart66'); ?></span>
+            </label>
+            <br/>
+            <label title="checkout page">
+              <input type="radio" name="cc_settings[cc_redirect_type]" id="cc_redirect_type_checkout" value="checkout" <?php echo $redirect_type  == 'checkout' ? 'checked="checked"' : ''; ?>>
+              <span><?php _e('Go to checkout page', 'cart66'); ?></span>
+            </label>
+          </fieldset>
+          <p class="description"><?php _e('Where to direct the buyer after adding a product to the shopping cart', 'cart66'); ?></p>
+        </td>
+      </tr>
+
+      <tr>
+        <th scope="row"><label for="cc_selected_page_template"><?php _e('Page template for Cart66 Cloud', 'cart66'); ?></label></th>
+        <td>
+          <select name="cc_settings[cc_selected_page_template]" id="cc_settings_cc_selected_page_template">
+            <?php foreach($templates as $file => $description): ?>
+              <?php CC_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] Comparing file to selected page: file = $file :: $selected_page_template"); ?>
+              <option value="<?php echo $file; ?>" <?php echo $file == $selected_page_template ? 'selected="selected"' : ''; ?>><?php echo $description; ?></option>
+            <?php endforeach; ?>
+          </select>
+          <p class="description"><?php _e('Which page template would you like to use on Cart66 Cloud', 'cart66'); ?></p>
+        </td>
+      </tr>
+
+      <tr valign="top">
+        <th scope="row"><label for="cc_logging"><?php _e('Enable logging', 'cart66'); ?></label></th>
+        <td>
+          <fieldset><legend class="screen-reader-text"><span><?php _e('Enable logging', 'cart66'); ?></span></legend>
+            <label title="yes">
+              <input type="radio" name="cc_settings[cc_logging]" id="cc_logging_yes" value="1" <?php echo $logging  == 1 ? 'checked="checked"' : ''; ?>>
+              <span><?php _e('Yes', 'cart66'); ?></span>
+            </label>
+            &nbsp;
+            <label title="no">
+              <input type="radio" name="cc_settings[cc_logging]" id="cc_logging_no" value="0" <?php echo $logging  == 0 ? 'checked="checked"' : ''; ?>>
+              <span><?php _e('No', 'cart66'); ?></span>
+            </label>
+          </fieldset>
+          <p class="description"><?php _e('Enable logging of debug and error messages in the log.txt file of the Cart66 Cloud plugin.<br/> Be careful, the log gets big quick. Only use for testing.', 'cart66'); ?></p>
+          <p>
+            <a href='?page=cart66&cc_task=download_log' class="button">Download Log File</a>
+            <a href='?page=cart66&cc_task=reset_log' class="button">Reset Log File</a>
+          </p>
+
+          <?php if(CC_FlashData::exists('task_message')): ?>
+            <p class="description"><?php echo CC_FlashData::get('task_message'); ?></p>
+          <?php endif; ?>
+
+        </td>
+      </tr>
+    </table>
+
+    <p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="Save Changes"></p>
+  </form>
+</div>

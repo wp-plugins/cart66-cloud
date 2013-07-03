@@ -1,0 +1,13 @@
+<div class="<?php echo $data['css_class']; ?>">
+  <?php if(isset($data['message']) && !empty($data['message'])): ?>
+    <h4 class="alert-heading"><?php echo $data['message']; ?></h4>
+  <?php endif; ?>
+  
+  <?php if(isset($data['errors']) && is_array($data['errors']) && count($data['errors'])): ?>
+    <ul>
+    <?php foreach($data['errors'] as $error): ?>
+      <li><?php echo $error; ?></li>
+    <?php endforeach; ?>
+    </ul>
+  <?php endif; ?>
+</div>
