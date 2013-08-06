@@ -3,7 +3,9 @@
 class CC_MetaBox {
 
   public static function add_memberships_box() {
-    $screens = array('post', 'page');
+    $admin = new CC_Admin();
+    $selected_post_types = $admin->get_option('member_post_types');
+    $screens = is_array($selected_post_types) ? $selected_post_types : array('post', 'page');
     $screens = apply_filters('ccm_meta_box_pages', $screens);
 
     foreach($screens as $screen) {
@@ -38,14 +40,18 @@ class CC_MetaBox {
     $when_logged_in = get_post_meta($post->ID, '_ccm_when_logged_in', true);
     $when_logged_out = get_post_meta($post->ID, '_ccm_when_logged_out', true);
     $post_type = get_post_type($post->ID);
+    $access_denied_page_id = get_post_meta($post->ID, '_ccm_access_denied_page_id', true);
+
     $data = array(
       'memberships' => $memberships, 
       'requirements' => $requirements, 
       'days' => $days,
       'when_logged_in' => $when_logged_in,
       'when_logged_out' => $when_logged_out,
+      'access_denied_page_id' => $access_denied_page_id,
       'post_type' => $post_type
     );
+
     echo CC_View::get(CC_PATH . 'views/admin/memberships_box.phtml', $data);
   }
 
@@ -65,10 +71,12 @@ class CC_MetaBox {
       $days = (isset($_POST['_ccm_days_in'])) ? (int)$_POST['_ccm_days_in'] : 0;
       $when_logged_in = (isset($_POST['_ccm_when_logged_in'])) ? $_POST['_ccm_when_logged_in'] : '';
       $when_logged_out = (isset($_POST['_ccm_when_logged_out'])) ? $_POST['_ccm_when_logged_out'] : '';
+      $access_denied_page_id = (isset($_POST['_ccm_access_denied_page_id'])) ? $_POST['_ccm_access_denied_page_id'] : '';
       update_post_meta($post_ID, '_ccm_required_memberships', $membership_ids);
       update_post_meta($post_ID, '_ccm_days_in', $days);
       update_post_meta($post_ID, '_ccm_when_logged_in', $when_logged_in);
       update_post_meta($post_ID, '_ccm_when_logged_out', $when_logged_out);
+      update_post_meta($post_ID, '_ccm_access_denied_page_id', $access_denied_page_id);
     }
   }
 

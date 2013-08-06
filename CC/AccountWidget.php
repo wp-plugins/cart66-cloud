@@ -86,7 +86,7 @@ class CC_AccountWidget extends WP_Widget {
     echo $view;
   }
 
-  public function ajax_render_content() {
+  public static function ajax_render_content() {
     // TODO: Get real history and profile links
     $history_url = ($_POST['show_link_history'] == 1) ? CC_Cart::order_history_url() : false;
     $profile_url = ($_POST['show_link_profile'] == 1) ? CC_Cart::profile_url() : false;

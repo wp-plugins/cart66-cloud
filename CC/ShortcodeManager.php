@@ -2,7 +2,7 @@
 
 class CC_ShortcodeManager {
 
-  public function add_media_button($context) {
+  public static function add_media_button($context) {
     $style =  '<style type="text/css">';
     $style .= '.cart66-button-icon { ';
     $style .= '  background: url("' . CC_URL . 'resources/images/icon.png");';
@@ -36,52 +36,44 @@ class CC_ShortcodeManager {
   }
   
   public static function register_shortcodes() {
-    add_shortcode('cc_product',      array('CC_ShortcodeManager', 'product'));
-    add_shortcode('cc_product_link', array('CC_ShortcodeManager', 'product_link'));
-    add_shortcode('cc_show_to',      array('CC_ShortcodeManager', 'cc_show_to'));
-    add_shortcode('cc_hide_from',    array('CC_ShortcodeManager', 'cc_hide_from'));
+    add_shortcode('cc_product',           array('CC_ShortcodeManager', 'cc_product'));
+    add_shortcode('cc_product_link',      array('CC_ShortcodeManager', 'cc_product_link'));
+    add_shortcode('cc_show_to',           array('CC_ShortcodeManager', 'cc_show_to'));
+    add_shortcode('cc_hide_from',         array('CC_ShortcodeManager', 'cc_hide_from'));
+    add_shortcode('cc_cart_item_count',   array('CC_ShortcodeManager', 'cc_cart_item_count'));
+    add_shortcode('cc_cart_subtotal',     array('CC_ShortcodeManager', 'cc_cart_subtotal'));
+    add_shortcode('cc_visitor_name',      array('CC_ShortcodeManager', 'cc_visitor_name'));
   }
 
-  public static function product($args, $content) {
-    $form = '';
+  public static function cc_cart_item_count($args, $content) {
+    return CC::cart_item_count();
+  }
 
-    if($error_message = CC_FlashData::get('api_error')) {
-      $form .= "<p class=\"cc_error\">$error_message</p>";
-    }
+  public static function cc_cart_subtotal($args, $content) {
+    return CC::cart_subtotal();
+  }
 
+  public static function cc_visitor_name($args, $content) {
+    return CC::visitor_name();
+  }
+
+  public static function cc_product($args, $content) {
     $product_id = isset($args['id']) ? $args['id'] : false;
     $product_sku = isset($args['sku']) ? $args['sku'] : false;
     $display_quantity = isset($args['quantity']) ? $args['quantity'] : 'true';
     $display_price = isset($args['price']) ? $args['price'] : 'true';
-    $display_mode = isset($args['display']) ? $args['display'] : null;
+    $display_mode = isset($args['display']) ? $args['display'] : '';
 
-    if($form_with_errors = CC_FlashData::get($product_sku)) {
-      $form .= $form_with_errors;
-    }
-    else {
-      $product = new CC_Product();
-      if($product_sku) {
-        $product->sku = $product_sku;
-      }
-      elseif($product_id) {
-        $product->id = $product_id;
-      }
-      else {
-        throw new CC_Exception_Product('Unable to add product to cart without know the product sku or id');
-      }
+    $lib = new CC_Library();
+    $subdomain = $lib->get_subdomain();
+    $id = CC_Common::rand_string(12, 'lower');
 
-      try {
-        $form .= $product->get_order_form($display_quantity, $display_price, $display_mode);
-      }
-      catch(CC_Exception_Product $e) {
-        $form = "Product order form unavailable";
-      }
-    }
+    $out = "<div id='" . $id . "' class='cc_product' data-subdomain='$subdomain' data-sku='$product_sku' data-quantity='$display_quantity' data-price='$display_price' data-display='$display_mode'></div>";
 
-    return $form;
+    return $out;
   }
 
-  public static function product_link($args, $content) {
+  public static function cc_product_link($args, $content) {
     $sku = isset($args['sku']) ? $args['sku'] : false;
     if($sku) {
       $quantity = isset($args['quantity']) ? (int)$args['quantity'] : 1;
@@ -90,13 +82,23 @@ class CC_ShortcodeManager {
         'sku=' . $args['sku'],
         'quantity=' . $quantity
       );
+
       if(isset($args['redirect'])) {
         $query_string['redirect'] = 'redirect=' . urlencode($args['redirect']);
       }
+      else {
+        $redirect_type = get_site_option('cc_redirect_type');
+        if($redirect_type == 'stay' || $redirect_type == 'stay_ajax') {
+          $current_page = get_permalink();
+          $url = urlencode($current_page);
+          $query_string['redirect'] = "redirect=$url";
+        }
+      }
+
       $query_string = implode('&', $query_string);
       $link = get_site_url() . '?' . $query_string;
     }
-    $link = "<a href='$link'>$content</a>";
+    $link = "<a href='$link' rel='nofollow'>$content</a>";
     return $link;
   }
 
@@ -169,7 +171,7 @@ class CC_ShortcodeManager {
     }
     
     $dbg = $in_group ? 'YES the visitor is in the group' : 'NO the visitor is NOT in the group';
-    CC_Log::write("Visitor in group final assessment :: $dbg");
+    // CC_Log::write("Visitor in group final assessment :: $dbg");
     
     return $in_group;
   }

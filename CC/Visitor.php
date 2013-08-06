@@ -2,17 +2,66 @@
 
 class CC_Visitor {
 
-  protected static $_token = false;
-  protected static $_access_list = false;
+  protected static $_token = FALSE;
+  protected static $_access_list = FALSE;
+  protected static $_restricted_cats = NULL;
+  protected static $_excluded_cats = NULL;
 
   public function __construct() {
     $this->load_token();
     $this->load_access_list();
+    $this->load_restricted_cats();
+    $this->load_excluded_category_ids();
   }
 
   public function set_access_list(array $list) {
     CC_Log::write('Setting logged in vistor access list :: ' . print_r($list, true));
     self::$_access_list = $list;
+  }
+
+  public function load_restricted_cats() {
+    if(!is_array(self::$_restricted_cats)) {
+      self::$_restricted_cats = get_option('ccm_category_restrictions');
+      CC_Log::write("Loaded restricted categories: " . print_r(self::$_restricted_cats, TRUE));
+    }
+  }
+
+  /**
+   * Return an array of category ids that the current visitor does not have permission to view
+   *
+   * @return array
+   */
+  public function load_excluded_category_ids() {
+    if(!is_array(self::$_excluded_cats)) {
+      self::$_excluded_cats = array();
+      $category_args = array(
+        'type'         => 'post',
+        'child_of'     => 0,
+        'parent'       => '',
+        'orderby'      => 'name',
+        'order'        => 'ASC',
+        'hide_empty'   => 0,
+        'hierarchical' => 1,
+        'taxonomy'     => 'category'
+      );
+
+      $categories = get_categories($category_args);
+
+      foreach($categories as $cat) {
+        if(!$this->can_view_post_category($cat->cat_ID)) {
+          CC_Log::write("Looping and Excluding category id: " . $cat->cat_ID);
+          self::$_excluded_cats[] = $cat->cat_ID;
+        }
+      }
+    }
+  }
+
+  public function excluded_category_ids() {
+    if(!is_array(self::$_excluded_cats)) {
+      $this->load_excluded_category_ids();
+    }
+    CC_Log::write('Returning excluded category ids: ' . print_r(self::$_excluded_cats, TRUE));
+    return self::$_excluded_cats;
   }
 
   public function load_access_list($force=false) {
@@ -25,7 +74,7 @@ class CC_Visitor {
       $this->set_access_list($access_list);
     }
     else {
-      // CC_Log::write('Not loading access list from cloud because it is already an array :: ' . print_r(self::$_access_list, true));
+      // CC_Log::write('Not loading access list from cloud because it is already an array and is not forced to reload :: ' . print_r(self::$_access_list, true));
     }
   }
 
@@ -183,28 +232,61 @@ class CC_Visitor {
   public function can_view_post($post_id) {
     $allow = true;
     $memberships = get_post_meta($post_id, '_ccm_required_memberships', true);
+    $post_cat_ids = wp_get_post_categories($post_id);
 
-    if(is_array($memberships) && count($memberships)) {
-      // CC_Log::write('This post requires memberships: ' . print_r($memberships, true));
-      $allow = false; // only grant permission to logged in visitors with active subscriptions
-      if($this->is_logged_in()) {
-        $days_in = get_post_meta($post_id, '_ccm_days_in', true);
-        CC_Log::write("Checking if has permission on days in: $days_in :: "  . print_r($memberships, true));
-        if($this->has_permission($memberships, $days_in)) {
-          CC_Log::write('This visitor has permission to view this post:' . $post_id);
+    CC_Log::write("Categories for post id $post_id" . print_r($post_cat_ids, TRUE));
+
+    // Check if visitor may view the post category
+    if(count($post_cat_ids) > 0) {
+      $allow = false;
+      foreach($post_cat_ids as $cat_id) {
+        if($this->can_view_post_category($cat_id)) {
           $allow = true;
-        }
-        else {
-          CC_Log::write('Can NOT view post because the logged in visitor does not have permission');
+          CC_Log::write("Allowing access to category: $cat_id");
+          break;
         }
       }
-      else {
-        CC_Log::write('Can NOT view post because the visitor is not logged in');
+    }
+
+    if($allow) {
+      if(is_array($memberships) && count($memberships)) {
+        // CC_Log::write('This post requires memberships: ' . print_r($memberships, true));
+        $allow = false; // only grant permission to logged in visitors with active subscriptions
+        if($this->is_logged_in()) {
+          $days_in = get_post_meta($post_id, '_ccm_days_in', true);
+          CC_Log::write("Checking if has permission on days in: $days_in :: "  . print_r($memberships, true));
+          if($this->has_permission($memberships, $days_in)) {
+            CC_Log::write('This visitor has permission to view this post:' . $post_id);
+            $allow = true;
+          }
+          else {
+            CC_Log::write('Can NOT view post because the logged in visitor does not have permission');
+          }
+        }
+        else {
+          CC_Log::write('Can NOT view post because the visitor is not logged in');
+        }
       }
     }
 
     return $allow;
   }
+
+  public function can_view_post_category($cat_id) {
+    CC_Log::write("Checking permission for category id: $cat_id");
+    $allow = TRUE;
+
+    if(is_array(self::$_restricted_cats) && isset(self::$_restricted_cats[$cat_id])) {
+      $memberships = self::$_restricted_cats[$cat_id];
+      $allow = $this->has_permission($memberships);
+    }
+
+    $dbg = $allow ? "Granting permission for category id: $cat_id" : "Denying permission for category id: $cat_id";
+    CC_Log::write($dbg);
+
+    return $allow;
+  }
+  
 
   /**
    * Return true if one of the given memberships is in the access list and at least $days_in days old
@@ -220,7 +302,7 @@ class CC_Visitor {
       foreach($access_list as $item) {
         $days_active = is_numeric($item['days_in']) ? $item['days_in'] : 0;
         $days_in = is_numeric($days_in) ? $days_in : 0;
-        CC_Log::write("Days in: $days_in <=> Days active: $days_active");
+        // CC_Log::write("Days in: $days_in <=> Days active: $days_active");
         if($sku == $item['sku'] && $days_in <= $days_active) {
           CC_Log::write("Permission ok: $sku :: Days in: $days_in :: " . $item['days_in']);
           return true;

@@ -102,13 +102,16 @@ class CC_Common {
    * The default length of the string is 14 characters.
    *
    * @param int (Optional) $length The number of characters in the string. Default: 14
-   * @param boolean (Optional) $entropy If true, included lowercase letters and symbols in the string
+   * @param string (Optional) $entropy 'lower' includes lower case letters, 'symbols' includes lower case letters and symbols
    * @return string
    */
-  public static function rand_string($length = 14, $entropy=false) {
+  public static function rand_string($length = 14, $entropy='none') {
     $string = '';
     $chrs = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    if($entropy) {
+    if($entropy == 'lower') {
+      $chrs .= 'abcdefghijklmnopqrstuvwxyz';
+    }
+    elseif($entropy == 'symbols') {
       $chrs .= 'abcdefghijklmnopqrstuvwxyz!@#%^&*()+~:';
     }
     for($i=0; $i<$length; $i++) {

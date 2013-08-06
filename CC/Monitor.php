@@ -8,6 +8,19 @@ class CC_Monitor {
     $this->_current_memberships = array('basic');
   }
 
+  public function access_denied_redirect() {
+    global $post;
+    $visitor = new CC_Visitor();
+    if(!$visitor->can_view_post($post->ID)) {
+      $access_denied_page_id = get_post_meta($post->ID, '_ccm_access_denied_page_id', true);
+      if($access_denied_page_id > 0) {
+        $link = get_permalink($access_denied_page_id);
+        wp_redirect($link);
+        exit();
+      }
+    }
+  }
+
   public function restrict_pages($the_content) {
     global $post;
     $visitor = new CC_Visitor();
@@ -46,7 +59,7 @@ class CC_Monitor {
     $filtered_posts = array();
     $unfiltered_post_types = apply_filters('cc_unfiltered_post_types', array('page-slurp', 'page'));
     foreach($posts as $post) {
-      if(in_array($post->post_type, $unfiltered_post_types)  || $visitor->can_view_post($post->ID)) {
+      if(in_array($post->post_type, $unfiltered_post_types) || $visitor->can_view_post($post->ID)) {
         $filtered_posts[] = $post;
       }
     }
@@ -72,6 +85,14 @@ class CC_Monitor {
       $classes[] = 'ccm-hidden';
     }
     return $classes;
+  }
+
+  public function filter_category_widget($cat_args) {
+    $visitor = new CC_Visitor();
+    $excluded_category_ids = $visitor->excluded_category_ids();
+    $cat_args['exclude'] = implode(',', $excluded_category_ids);
+    CC_Log::write('Modified cat_args to excluded denied category ids: ' . print_r($cat_args, TRUE));
+    return $cat_args;
   }
 
 

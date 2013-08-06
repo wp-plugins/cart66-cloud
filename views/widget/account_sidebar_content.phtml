@@ -9,18 +9,18 @@
       <ul id="cc_cart_widget_links">
         <?php if($history_url): ?>
           <li class="cc_history_url">
-            <a id="cc_account_widget_history" href='<?php echo $history_url; ?>'><?php _e('Order History', 'cart66'); ?></a>
+            <a id="cc_account_widget_history" href="<?php echo $history_url; ?>" rel="nofollow"><?php _e('Order History', 'cart66'); ?></a>
           </li>
         <?php endif; ?>
         
         <?php if($profile_url): ?>
           <li class="cc_profile_url">
-            <a id="cc_account_widget_profile" href='<?php echo $profile_url; ?>'><?php _e('Profile', 'cart66'); ?></a>
+            <a id="cc_account_widget_profile" href="<?php echo $profile_url; ?>" rel="nofollow"><?php _e('Profile', 'cart66'); ?></a>
           </li>
         <?php endif; ?>
 
         <li class="cc_sign_out">
-          <a id="cc_sign_out_link" href="<?php echo $sign_out_url; ?>"><?php _e('Sign out', 'cart66'); ?></a>
+          <a id="cc_sign_out_link" href="<?php echo $sign_out_url; ?>" rel="nofollow"><?php _e('Sign out', 'cart66'); ?></a>
         </li>
       </ul>
     <?php else: ?>
@@ -29,7 +29,7 @@
       </div>
 
       <div class="cc_sign_in">
-        <a id="cc_sign_in_link" href="<?php echo $sign_in_url; ?>"><?php _e('Sign in', 'cart66'); ?></a>
+        <a id="cc_sign_in_link" href="<?php echo $sign_in_url; ?>" rel="nofollow"><?php _e('Sign in', 'cart66'); ?></a>
       </div>
     <?php endif; ?>
 

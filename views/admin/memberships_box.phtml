@@ -22,8 +22,22 @@
     
   </div>
 
-
   <?php if($post_type != 'post'): ?>
+    <div class="misc-pub-section">
+      <p><strong>Access Denied Page</strong></p>
+      <p>If you don't use an access denied page, the content of the page will be replaced with your <a href='admin.php?page=cart66_members'>access notifications</a>.</p>
+
+      <?php 
+        $args = array(
+          'name' => '_ccm_access_denied_page_id',
+          'show_option_none' => __('Do not use an access denied page', 'cart66'),
+          'option_none_value' => '0',
+          'selected' => $access_denied_page_id
+        );
+        wp_dropdown_pages($args); 
+       ?>
+    </div>
+
   <div class="misc-pub-section">
   <?php else: ?>
   <div class="misc-pub-section" style="border-bottom: none;">

@@ -27,11 +27,13 @@ class CC_Cart66Cloud {
     // Check for page slurp
     add_action('init', array('CC_PageSlurp', 'check'));
     add_action('init', array('CC_Cart', 'get_summary'));
+    add_action('init', array('CC_ShortcodeManager', 'register_shortcodes'));
     add_action('template_redirect', array('CC_Cart', 'redirect_cart_links'));
     // add_action('template_redirect', array('CC_PageSlurp', 'debug'));
 
     // Enqueue cart66 styles
     add_action('wp_enqueue_scripts', array('CC_Cart', 'enqueue_cart66_styles'));
+    add_action('wp_enqueue_scripts', array('CC_Library', 'enqueue_scripts'));
   }
 
   public function init_admin() {
@@ -52,8 +54,12 @@ class CC_Cart66Cloud {
 
 
   public function members_public_init() {
-    // Remove content from restricted pages
     $monitor = new CC_Monitor();
+
+    // Redirect to access denied page
+    add_action('template_redirect', array($monitor, 'access_denied_redirect'));
+
+    // Remove content from restricted pages
     add_filter('the_content', array($monitor, 'restrict_pages'));
     add_filter('the_posts',   array($monitor, 'filter_posts'));
 
@@ -61,8 +67,9 @@ class CC_Cart66Cloud {
     add_filter('get_pages',          array($monitor, 'filter_pages'));
     add_filter('nav_menu_css_class', array($monitor, 'filter_menus'), 10, 2);
     add_action('wp_enqueue_scripts', array($monitor, 'enqueue_css'));
-    
-    add_action('init', array('CC_ShortcodeManager', 'register_shortcodes'));
+
+    // Remove restricted categores from the category widget
+    add_filter('widget_categories_args', array($monitor, 'filter_category_widget'), 10, 2);
 
     $visitor = new CC_Visitor();
     add_action('init', array($visitor, 'check_remote_login'));

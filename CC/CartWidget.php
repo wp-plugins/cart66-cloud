@@ -58,7 +58,7 @@ class CC_CartWidget extends WP_Widget {
     echo $view;
   }
 
-  public function ajax_render_content() {
+  public static function ajax_render_content() {
     // CC_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] Call to CC_CartWidget::ajax_render_content()");
     $cart_summary = CC_Cart::get_summary();
     // CC_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] cart summary from ajax rendering: " . print_r($cart_summary, 1));

@@ -19,6 +19,9 @@ class Cart66Cloud_Loader {
         include $root . $path . '.php';
       }
     }
+    elseif($class_name == 'CC') {
+      include CC_PATH . 'CC/CC.php';
+    }
   }
   
 }
