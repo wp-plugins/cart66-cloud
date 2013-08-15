@@ -212,9 +212,6 @@ class CC_Cart {
 
     if(is_wp_error($response)) {
       $response_code = $response->get_error_code();
-      $response = array();
-      $response['response'] = array();
-
       $response = array(
         'response' => array(
           'code' => $response_code
@@ -234,6 +231,8 @@ class CC_Cart {
     else {
       $response_code = $response['response']['code'];
     }
+
+    CC_Log::write('Ajax response code: ' . print_r($response_code, TRUE));
     
     if($response_code == '500') {
       header('HTTP/1.1 500: SERVER ERROR', true, 500);
@@ -243,12 +242,34 @@ class CC_Cart {
       echo $response['body'];
     }
     else {
-      $product_info = json_decode($response['body'], true);
-      $product_name = $product_info['product_name'];
-      $message = $product_name . ' added to cart';
-      $view_cart = '<a href="' . self::view_cart_url() . '" class="btn btn-small pull-right ajax_view_cart_button" rel="nofollow">View Cart <i class="icon-arrow-right" /></a>';
-      echo $message . $view_cart;
-      do_action('cc_after_ajax_add_to_cart');
+      $redirect_type = get_site_option('cc_redirect_type');
+      $out = array('task' => 'redirect');
+
+      if('view_cart' == $redirect_type) {
+        $out['url'] = self::view_cart_url();
+      }
+      elseif('checkout' == $redirect_type) {
+        $out['url'] = self::checkout_url();
+      }
+      else {
+        $product_info = json_decode($response['body'], true);
+        $product_name = $product_info['product_name'];
+        $message = $product_name . ' added to cart';
+        $view_cart = '<a href="' . self::view_cart_url() . '" class="btn btn-small pull-right ajax_view_cart_button" rel="nofollow">View Cart <i class="icon-arrow-right" /></a>';
+
+        $out = array(
+          'task' => 'stay',
+          'response' => $message . $view_cart
+        );
+      }
+
+      CC_Log::write('Ajax created :: response code 201 :: out put: ' . print_r($out, TRUE));
+
+      header('HTTP/1.1 201: Created', true, 201);
+      header('Content-Type: application/json');
+      echo json_encode($out);
+
+      do_action('cc_after_add_to_cart');
     }
     die();
   }

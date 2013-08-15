@@ -15,14 +15,14 @@ class CC_Visitor {
   }
 
   public function set_access_list(array $list) {
-    CC_Log::write('Setting logged in vistor access list :: ' . print_r($list, true));
+    // CC_Log::write('Setting logged in vistor access list :: ' . print_r($list, true));
     self::$_access_list = $list;
   }
 
   public function load_restricted_cats() {
     if(!is_array(self::$_restricted_cats)) {
       self::$_restricted_cats = get_option('ccm_category_restrictions');
-      CC_Log::write("Loaded restricted categories: " . print_r(self::$_restricted_cats, TRUE));
+      // CC_Log::write("Loaded restricted categories: " . print_r(self::$_restricted_cats, TRUE));
     }
   }
 
@@ -49,7 +49,7 @@ class CC_Visitor {
 
       foreach($categories as $cat) {
         if(!$this->can_view_post_category($cat->cat_ID)) {
-          CC_Log::write("Looping and Excluding category id: " . $cat->cat_ID);
+          // CC_Log::write("Looping and Excluding category id: " . $cat->cat_ID);
           self::$_excluded_cats[] = $cat->cat_ID;
         }
       }
@@ -60,7 +60,7 @@ class CC_Visitor {
     if(!is_array(self::$_excluded_cats)) {
       $this->load_excluded_category_ids();
     }
-    CC_Log::write('Returning excluded category ids: ' . print_r(self::$_excluded_cats, TRUE));
+    // CC_Log::write('Returning excluded category ids: ' . print_r(self::$_excluded_cats, TRUE));
     return self::$_excluded_cats;
   }
 
@@ -69,7 +69,7 @@ class CC_Visitor {
       $token = $this->get_token();
       $lib = new CC_Library();
       $access_list = $lib->get_expiring_orders($token);
-      CC_Log::write("Loaded access list: " . print_r($access_list, true));
+      // CC_Log::write("Loaded access list: " . print_r($access_list, true));
       $access_list = is_array($access_list) ? $access_list : array();
       $this->set_access_list($access_list);
     }
@@ -114,10 +114,10 @@ class CC_Visitor {
       $token = CC_Common::scrub('cc_customer_token', $_GET);
       $name = CC_Common::scrub('cc_customer_first_name', $_GET);
       $this->log_in($token, $name);
-      CC_Log::write("Checking for remote login and found -- $token || $name");
+      // CC_Log::write("Checking for remote login and found -- $token || $name");
     }
     else {
-      CC_Log::write("Checking for remote login -- not creating a login session.");
+      // CC_Log::write("Checking for remote login -- not creating a login session.");
     }
   }
 
@@ -234,7 +234,7 @@ class CC_Visitor {
     $memberships = get_post_meta($post_id, '_ccm_required_memberships', true);
     $post_cat_ids = wp_get_post_categories($post_id);
 
-    CC_Log::write("Categories for post id $post_id" . print_r($post_cat_ids, TRUE));
+    // CC_Log::write("Categories for post id $post_id" . print_r($post_cat_ids, TRUE));
 
     // Check if visitor may view the post category
     if(count($post_cat_ids) > 0) {
@@ -273,7 +273,7 @@ class CC_Visitor {
   }
 
   public function can_view_post_category($cat_id) {
-    CC_Log::write("Checking permission for category id: $cat_id");
+    // CC_Log::write("Checking permission for category id: $cat_id");
     $allow = TRUE;
 
     if(is_array(self::$_restricted_cats) && isset(self::$_restricted_cats[$cat_id])) {
@@ -282,7 +282,7 @@ class CC_Visitor {
     }
 
     $dbg = $allow ? "Granting permission for category id: $cat_id" : "Denying permission for category id: $cat_id";
-    CC_Log::write($dbg);
+    // CC_Log::write($dbg);
 
     return $allow;
   }
@@ -297,7 +297,7 @@ class CC_Visitor {
    */
   public function has_permission(array $memberships, $days_in=0) {
     $access_list = $this->get_access_list();
-    CC_Log::write('Checking logged in visotors access list :: ' . print_r($access_list, true));
+    // CC_Log::write('Checking logged in visotors access list :: ' . print_r($access_list, true));
     foreach($memberships as $sku) {
       foreach($access_list as $item) {
         $days_active = is_numeric($item['days_in']) ? $item['days_in'] : 0;

@@ -8,11 +8,19 @@ jQuery(document).ready(function($) {
       type: 'POST',
       url: cc_cart.ajax_url,
       data: data,
-      dataType: 'html',
-      success: function(response) {
-        form.append('<div class="ajax_add_to_cart_message"><span class="alert alert-success ajax_button_notice"><a href="#" title="close" class="cc_close_message"><i class="icon-remove"></i></a><span class="cc_ajax_message">' + response + '</span></span></div>');
-        $('.cart66-button').trigger('CC:item_added');
-        refresh_widget();
+      dataType: 'json',
+      success: function(out) {
+        console.log('Reached the success function');
+        console.log(out);
+        if(out.task == 'stay') {
+          form.append('<div class="ajax_add_to_cart_message"><span class="alert alert-success ajax_button_notice"><a href="#" title="close" class="cc_close_message"><i class="icon-remove"></i></a><span class="cc_ajax_message">' + out.response + '</span></span></div>');
+          $('.cart66-button').trigger('CC:item_added');
+          refresh_widget();
+        }
+        else if(out.task == 'redirect') {
+          console.log(out.url);
+          window.location.replace(out.url);
+        }
       },
       error: function(response) {
         if(response.status == 500) {
