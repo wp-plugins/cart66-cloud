@@ -9,6 +9,7 @@ class CC_Library {
   protected static $_subdomain_url;
   protected static $_subdomain = NULL;
   protected static $_products;
+  protected static $_receipt_content;
 
   public function __construct() {
     self::init();
@@ -313,12 +314,20 @@ class CC_Library {
   }
 
   public function get_receipt_content($order_number) {
+
+    if(!empty(self::$_receipt_content)) {
+      // Only call the cloud if necessary
+      CC_Log::write('Already have receipt content - not calling the cloud for it.');
+      return self::$_receipt_content;
+    }
+
     $url = self::$_subdomain_url . "receipt/$order_number";
     $response = wp_remote_get($url, array('sslverify' => false));
     CC_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] Receipt content response from:\n$url\n\n" . print_r($response, true));
     if(!is_wp_error($response)) {
       if($response['response']['code'] == '200') {
-        return $response['body'];
+        self::$_receipt_content = $response['body'];
+        return self::$_receipt_content;
       }
     }
     else {

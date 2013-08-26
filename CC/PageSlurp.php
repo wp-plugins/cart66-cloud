@@ -13,6 +13,7 @@ class CC_PageSlurp {
 	public function __construct() {
     // Drop the cart key cookie if the receipt page is requested
     if(isset($_REQUEST['cc_page_name']) && $_REQUEST['cc_page_name'] == 'receipt') {
+      CC_Log::write("Receipt page requested - preparing to drop the cart");
       CC_Cart::drop_cart();
     }
 
