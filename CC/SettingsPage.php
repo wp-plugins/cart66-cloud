@@ -28,7 +28,8 @@ class CC_SettingsPage {
 	    'templates' => $templates,
 	    'selected_page_template' => $selected_template,
 	    'redirect_type' => get_site_option('cc_redirect_type'),
-      'logging' => get_site_option('cc_logging')
+      'logging' => get_site_option('cc_logging'),
+      'product_loader' => get_site_option('cc_product_loader', 'server')
 	  );
 
     $view = CC_View::get(CC_PATH . 'views/admin/main_settings.phtml', $data);
@@ -48,6 +49,12 @@ class CC_SettingsPage {
           }
         }
       }
+
+      $subdomain = CC_Library::get_subdomain(TRUE);
+      if($subdomain) {
+        update_site_option('cc_subdomain', $subdomain);
+      }
+
     }
 
     if(count($this->_errors)) {

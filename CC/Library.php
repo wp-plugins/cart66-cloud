@@ -126,26 +126,47 @@ class CC_Library {
    * 
    * @return mixed String or False
    */
-  public static function get_subdomain() {
-    if(empty(self::$_subdomain)) {
-      $subdomain = false;
+  public static function get_subdomain($force=FALSE) {
+    
+    if($force) {
+      self::$_subdomain = self::get_subdomain_from_cloud();
+      update_site_option('cc_subdomain', $subdomain);
+      CC_Log::write('Forcing the retrieval of the subdomain from the cloud: ' . self::$_subdomain);
+    }
+    elseif(empty(self::$_subdomain)) {
+      self::$_subdomain = get_site_option('cc_subdomain');
 
-      $url = self::$_api . 'subdomain';
-      $headers = array('Accept' => 'text/html');
-      $response = wp_remote_get($url, self::_basic_auth_header($headers));
-
-      if(self::_response_ok($response)) {
-        $subdomain = $response['body'];
+      if(empty(self::$_subdomain)) {
+        self::$_subdomain = self::get_subdomain_from_cloud();
+        update_site_option('cc_subdomain', $subdomain);
+        CC_Log::write('Getting the subdomain from the cloud because it is not in the database: ' . self::$_subdomain);
       }
-
-      self::$_subdomain = $subdomain;
-      CC_Log::write('Loaded subdomain: ' . self::$_subdomain);
+      else {
+        CC_Log::write('Using the subdomain in the database: ' . self::$_subdomain);
+      }
     }
     else {
-      CC_Log::write('Reusing pre-loaded subdomain: ' . self::$_subdomain);
+      CC_Log::write('Reusing the subdomain from the static variable: ' . self::$_subdomain);
     }
 
     return self::$_subdomain;
+  }
+
+  /**
+   * Return the subdomain from the cloud or false
+   */
+  public static function get_subdomain_from_cloud() {
+    $subdomain = false;
+
+    $url = self::$_api . 'subdomain';
+    $headers = array('Accept' => 'text/html');
+    $response = wp_remote_get($url, self::_basic_auth_header($headers));
+
+    if(self::_response_ok($response)) {
+      $subdomain = $response['body'];
+    }
+
+    return $subdomain;
   }
 
   /**

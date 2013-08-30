@@ -59,7 +59,9 @@ class CC_ShortcodeManager {
 
   public static function cc_product($args, $content) {
     $out = '';
-    if(preg_match('/(?i)msie [2-9]/',$_SERVER['HTTP_USER_AGENT'])) {
+    $product_loader = get_site_option('cc_product_loader', 'server');
+
+    if($product_loader == 'server' || preg_match('/(?i)msie [2-9]/',$_SERVER['HTTP_USER_AGENT'])) {
       // if IE<=9 do not use the ajax product form method
       $out = self::cc_product_via_api($args, $content);
     }

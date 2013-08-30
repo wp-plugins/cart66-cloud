@@ -12,6 +12,7 @@
         <th scope="row"><label for="cc_secret_key"><?php _e('Cart66 Cloud Secret Key', 'cart66'); ?></label></th>
         <td><input name="cc_settings[cc_secret_key]" type="text" id="cc_secret_key" value="<?php echo get_site_option('cc_secret_key'); ?>" class="regular-text" /></td>
       </tr>
+
       <tr valign="top">
         <th scope="row"><label for="cc_redirect_type"><?php _e('Add to cart redirect', 'cart66'); ?></label></th>
         <td>
@@ -35,6 +36,23 @@
         </td>
       </tr>
 
+      <tr valign="top">
+        <th scope="row"><label for="cc_product_loader"><?php _e('Product loader', 'cart66'); ?></label></th>
+        <td>
+          <fieldset><legend class="screen-reader-text"><span><?php _e('Server API call', 'cart66'); ?></span></legend>
+            <label>
+              <input type="radio" name="cc_settings[cc_product_loader]" id="cc_product_loader_server" value="server" <?php echo $product_loader  == 'server' ? 'checked="checked"' : ''; ?>>
+              <span><?php _e('Server side loading', 'cart66'); ?></span>
+            </label>
+            <br/>
+            <label>
+              <input type="radio" name="cc_settings[cc_product_loader]" id="cc_product_loader_client" value="client" <?php echo $product_loader  == 'client' ? 'checked="checked"' : ''; ?>>
+              <span><?php _e('Client side loading via AJAX (faster but requires javascript)', 'cart66'); ?></span>
+            </label>
+          </fieldset>
+        </td>
+      </tr>
+
       <tr>
         <th scope="row"><label for="cc_selected_page_template"><?php _e('Page template for Cart66 Cloud', 'cart66'); ?></label></th>
         <td>
@@ -45,6 +63,14 @@
             <?php endforeach; ?>
           </select>
           <p class="description"><?php _e('Which page template would you like to use on Cart66 Cloud', 'cart66'); ?></p>
+        </td>
+      </tr>
+
+      <tr validn-"top">
+        <th scope="row">Your custom subdomain</th>
+        <td><?php echo CC_Library::get_subdomain(); ?>
+        <p class="description"><?php _e('Your custom subdomain is set on the Settings tab of your <a href="https://manage.cart66.com">Cart66 Cloud management console.</a><br>Set your subdomain there, then click this button to update the subdomain value for your WordPress store.', 'cart66'); ?></p>
+          <p><input type="submit" name="submit" id="submit" class="button-secondary" value="Sync Subdomain"></p>
         </td>
       </tr>
 
