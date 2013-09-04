@@ -10,6 +10,7 @@ class CC_Library {
   protected static $_subdomain = NULL;
   protected static $_products;
   protected static $_receipt_content;
+  protected static $_expiring_products;
 
   public function __construct() {
     self::init();
@@ -106,18 +107,26 @@ class CC_Library {
    * )
    */
   public function get_expiring_products() {
-    // CC_Log::write('Getting expiring products from the cloud');
-    $url = self::$_api . 'products/expiring';
-    $headers = array('Accept' => 'application/json');
-    $response = wp_remote_get($url, self::_basic_auth_header($headers));
+    if(!empty(self::$_expiring_products)) {
+      $product_data = self::$_expiring_products;
+      CC_Log::write('Reusing expiring product data in the Cart66 Cloud Library');
+    }
+    else {
+      CC_Log::write('Getting expiring products from the cloud');
+      $url = self::$_api . 'products/expiring';
+      $headers = array('Accept' => 'application/json');
+      $response = wp_remote_get($url, self::_basic_auth_header($headers));
 
-    if(!self::_response_ok($response)) {
-      CC_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] CC_Library::get_expiring_products failed: $url :: " . print_r($response, true));
-      throw new CC_Exception_API("Failed to retrieve expiring products from Cart66 Cloud");
+      if(!self::_response_ok($response)) {
+        CC_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] CC_Library::get_expiring_products failed: $url :: " . print_r($response, true));
+        throw new CC_Exception_API("Failed to retrieve expiring products from Cart66 Cloud");
+      }
+
+      $product_data = json_decode($response['body'], true);
+      self::$_expiring_products = $product_data;
+      // CC_Log::write('Expiring products: ' . print_r($product_data, TRUE));
     }
 
-    $product_data = json_decode($response['body'], true);
-    // CC_Log::write('Expiring products: ' . print_r($product_data, TRUE));
     return $product_data;
   }
 

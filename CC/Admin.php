@@ -3,6 +3,7 @@
 class CC_Admin {
 
   protected $_options = null;
+  protected static $_memberships = null;
 
   public function __construct() {
     $this->_options = get_option('ccm_access_notifications');
@@ -11,19 +12,26 @@ class CC_Admin {
   }
 
   public function load_memberships() {
-    $memberships = array();
-    $lib = new CC_Library();
-    try {
-      $products = $lib->get_expiring_products();
-      if(is_array($products)) {
-        foreach($products as $p) {
-          $memberships[$p['name']] = $p['sku'];
-        }
-      }
-      // CC_Log::write('Loaded memberships: ' . print_r($memberships, TRUE));
+    if(is_array(self::$_memberships)) {
+      $memberships = self::$_memberships;
+      CC_Log::write('Reusing memberships');
     }
-    catch(Exception $e) {
-      CC_Log::write("Failed to load memberships: " . $e->getMessage());
+    else {
+      $memberships = array();
+      $lib = new CC_Library();
+      try {
+        $products = $lib->get_expiring_products();
+        if(is_array($products)) {
+          foreach($products as $p) {
+            $memberships[$p['name']] = $p['sku'];
+          }
+        }
+        // CC_Log::write('Loaded memberships: ' . print_r($memberships, TRUE));
+        self::$_memberships = $memberships;
+      }
+      catch(Exception $e) {
+        CC_Log::write("Failed to load memberships: " . $e->getMessage());
+      }
     }
 
     return $memberships;
