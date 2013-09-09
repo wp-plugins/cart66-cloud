@@ -2,6 +2,22 @@
 
 class CC_Common {
 
+  public static function get_version_number() {
+    $version = '0.0.0';
+
+    if(!function_exists('get_plugin_data')) {
+      require_once(ABSPATH . 'wp-admin/includes/plugin.php');
+    }
+
+    $plugin_data = get_plugin_data(CC_PATH . '/cart66-cloud.php');
+
+    if(is_array($plugin_data) && isset($plugin_data['Version'])) {
+      $version = $plugin_data['Version'];
+    }
+
+    return $version;
+  }
+
   /**
    * Return true if the provided slug is part of the page request
    */

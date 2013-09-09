@@ -11,7 +11,8 @@ class CC_TaskDispatcher {
     'add_to_cart'         => 'add_to_cart',
     'download_log'        => 'download_log',
     'reset_log'           => 'reset_log',
-    'sky'                 => 'sky_link'
+    'sky'                 => 'sky_link',
+    'version'             => 'get_plugin_version'
   );
   
   /**
@@ -157,4 +158,9 @@ class CC_TaskDispatcher {
     }
   }
 
+  public static function get_plugin_version() {
+    $version = CC_Common::get_version_number();
+    die($version);
+    return $version;
+  }
 }

@@ -206,8 +206,8 @@ class CC_Library {
 
     // Prepare the url
     $headers = array('Accept' => 'text/html');
-    $url = self::$_subdomain_url . '/products/' . $product_id . '/forms/add_to_cart' . $query_string;
-
+    $url = self::$_subdomain_url . 'products/' . $product_id . '/forms/add_to_cart' . $query_string;
+    CC_Log::write("Getting order form get_order_form URL: $url");
     $response = wp_remote_get($url, self::_basic_auth_header($headers));
 
     if(is_wp_error($response)) {
@@ -384,19 +384,60 @@ class CC_Library {
     return $allow;
   }
 
-  public function get_expiring_orders($token) {
+  /**
+   * Return an array of memberships and subscriptions for the visitor identified by the given token
+   *
+   * Example return value
+   * Array (
+   *    [0] => Array
+   *        (
+   *            [sku] => lifetime
+   *            [days_in] => 0
+   *            [status] => active
+   *        )
+   *
+   *    [1] => Array
+   *        (
+   *            [sku] => basic
+   *            [days_in] => 50
+   *            [status] => canceled
+   *        )
+   *
+   *    [2] => Array
+   *        (
+   *            [sku] => premium
+   *            [days_in] => 50
+   *            [status] => expired
+   *        )
+   * )
+   *
+   * @param string $token The logged in member token
+   * @param string $status The types of memberships and subscriptions to include (all, active, canceled, expired)
+   * @return array
+   */
+  public function get_memberships($token, $status='active') {
     $memberships = array();
     if(!empty($token) && strlen($token) > 3) {
-      $url = self::$_api . "accounts/$token/expiring_orders";
-      CC_Log::write("Getting expiring orders: $url");
+      $url = self::$_api . "memberships/$token";
+      CC_Log::write("Getting memberships from the cloud: $url");
       $headers = array('Accept' => 'application/json');
       $response = wp_remote_get($url, self::_basic_auth_header($headers));
       if(self::_response_ok($response)) {
         $json = $response['body'];
-        CC_Log::write("Response body json: $json");
-        $memberships = json_decode($json, true);
+        $all = json_decode($json, true);
+        if($status == 'all') {
+          $memberships = $all;
+        }
+        else {
+          foreach ($all as $order) {
+            if(isset($order['status']) && $order['status'] == $status) {
+              CC_Log::write("Including membership in list: " . print_r($order, TRUE));
+              $memberships[] = $order;
+            }
+          }
+        }
       }
-      //CC_Log::write("$url\nExpiring order list: " . print_r($memberships, true));
+      CC_Log::write("$url\nMembership list: " . print_r($memberships, true));
     }
     return $memberships;
   }

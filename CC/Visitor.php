@@ -68,7 +68,7 @@ class CC_Visitor {
     if($force || !is_array(self::$_access_list)) {
       $token = $this->get_token();
       $lib = new CC_Library();
-      $access_list = $lib->get_expiring_orders($token);
+      $access_list = $lib->get_memberships($token);
       // CC_Log::write("Loaded access list: " . print_r($access_list, true));
       $access_list = is_array($access_list) ? $access_list : array();
       $this->set_access_list($access_list);
