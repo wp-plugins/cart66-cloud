@@ -93,7 +93,7 @@ PCI Compliance is a set of requirements that your business needs to meet in orde
 
 == Changelog ==
 
-= 1.6.6 - 10/24/2013 +
+= 1.6.6 - 10/24/2013 =
 
 - New: Added debugging tool to test for server's PHP settings for cURL requests
 - Updated: Changed the default colors for the AJAX success message after adding a product to the cart to gray instead of mint green
