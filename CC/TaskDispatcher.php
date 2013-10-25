@@ -12,7 +12,8 @@ class CC_TaskDispatcher {
     'download_log'        => 'download_log',
     'reset_log'           => 'reset_log',
     'sky'                 => 'sky_link',
-    'version'             => 'get_plugin_version'
+    'version'             => 'get_plugin_version',
+    'test_remote_calls'   => 'test_remote_calls'
   );
   
   /**
@@ -161,6 +162,71 @@ class CC_TaskDispatcher {
   public static function get_plugin_version() {
     $version = CC_Common::get_version_number();
     die($version);
-    return $version;
   }
+
+  public static function test_remote_calls() {
+    $out = array();
+    $manage = 'https://manage.cart66.com';
+    $ssl = 'https://cart66.com';
+    $http = 'http://cart66.com';
+    $success = FALSE;
+
+    // Test GET on https://manage.cart66.com
+    $response = wp_remote_get($manage);
+    if(!is_wp_error($response)) {
+      // Not an error, check for data
+      if(isset($response['headers']) && isset($response['headers']['content-length']) && $response['headers']['content-length'] > 0) {
+        $out[] = 'Success: Connected to Cart66';
+        $success = TRUE;
+      }
+      else {
+        $out[] = "Fail: No data was received from Cart66 management console";
+      }
+    }
+    else {
+      $out[] = 'Failed to connect to Cart66 management console';
+    }
+
+    if(!$success) {
+      // Test GET on https://www.google.com
+      $response = wp_remote_get($ssl);
+      if(!is_wp_error($response)) {
+        // Not an error, check for data
+        if(isset($response['headers']) && isset($response['headers']['content-length']) && $response['headers']['content-length'] > 0) {
+          $out[] = 'Success: Connected to alternate secure server';
+        }
+        else {
+          $out[] = "Fail: No data was received over SSL";
+        }
+      }
+      else {
+        $out[] = 'Failed to connect to alternate secure server over https';
+      }
+      
+
+      // Test GET on http://cart66.com
+      $response = wp_remote_get($http);
+      if(!is_wp_error($response)) {
+        // Not an error, check for data
+        if(isset($response['headers']) && isset($response['headers']['content-length']) && $response['headers']['content-length'] > 0) {
+          $out[] = 'Success: Connected to alternate standard server over http';
+        }
+        else {
+          $out[] = "Fail: No data was received over http";
+        }
+      }
+      else {
+        $out[] = 'Failed to connect to alternate server over http';
+      }
+    }
+
+    $results = '<ul>';
+    foreach($out as $msg) {
+      $results .= '<li>' . $msg . '</li>';
+    }
+    $results .= '</ul>';
+
+    CC_FlashData::set('remote_call_test_results', $results);
+  }
+
 }

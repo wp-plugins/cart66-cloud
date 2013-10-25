@@ -8,7 +8,7 @@ class CC_Admin {
   public function __construct() {
     $this->_options = get_option('ccm_access_notifications');
     $this->_restricted_cats = get_option('ccm_category_restrictions');
-    $this->_memberships = $this->load_memberships();
+    self::$_memberships = $this->load_memberships();
   }
 
   public function load_memberships() {
@@ -48,7 +48,7 @@ class CC_Admin {
     );
   }
 
-  public function render_members_settings_page() {
+  public static function render_members_settings_page() {
     $data = array(
       'notifications_tab' => '',
       'restrict_categories_tab' => ''
@@ -150,11 +150,11 @@ class CC_Admin {
     }
   }
 
-  public function render_access_notifications_description() {
+  public static function render_access_notifications_description() {
     //echo '<p>CCM Access Notifications</p>';
   }
 
-  public function render_category_restrictions_description() {
+  public static function render_category_restrictions_description() {
     echo '<p>Select the memberships that are required in order to access posts for the listed categories.<br/>';
     echo 'Do not select any memberships for categories open to the public.</p>';
   }
@@ -202,6 +202,7 @@ class CC_Admin {
       $checked = in_array($pt, $selected_types) ? 'checked="checked"' : '';
       $out .= '<input type="checkbox" name="' . $args['name'] . '[]" value="' . $pt . '" ' . $checked . ' /> '  . $pt . '<br/>';
     }
+    $out .= '<input type="hidden" name="' . $args['name'] . '[]" value="none" />';
     echo $out;
   }
 
@@ -238,7 +239,7 @@ class CC_Admin {
         $out .= '<h3 class="cc_bar_head cc_gradient">' . $indent . $cat->name . '</h3>';
 
         $out .= '<div class="cc_cat_list">';
-        foreach($this->_memberships as $name => $id) {
+        foreach(self::$_memberships as $name => $id) {
           $checked = '';
           if(isset($this->_restricted_cats[$cat->term_id]) && is_array($this->_restricted_cats[$cat->term_id]) && in_array($id, $this->_restricted_cats[$cat->term_id])) {
             $checked = 'checked="checked"';

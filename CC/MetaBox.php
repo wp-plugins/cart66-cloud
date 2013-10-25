@@ -55,7 +55,7 @@ class CC_MetaBox {
     echo CC_View::get(CC_PATH . 'views/admin/memberships_box.phtml', $data);
   }
 
-  public function save_membership_requirements() {
+  public static function save_membership_requirements() {
     // Don't do anything during autosaves
     if(defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) { return; }
 

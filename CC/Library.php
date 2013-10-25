@@ -133,13 +133,13 @@ class CC_Library {
   /**
    * Return the custom subdomain for the account of false if no subdomain is set
    * 
-   * @return mixed String or False
+   * @return mixed String or FALSE
    */
   public static function get_subdomain($force=FALSE) {
     
     if($force) {
       self::$_subdomain = self::get_subdomain_from_cloud();
-      update_site_option('cc_subdomain', $subdomain);
+      update_site_option('cc_subdomain', self::$_subdomain);
       CC_Log::write('Forcing the retrieval of the subdomain from the cloud: ' . self::$_subdomain);
     }
     elseif(empty(self::$_subdomain)) {
@@ -147,7 +147,7 @@ class CC_Library {
 
       if(empty(self::$_subdomain)) {
         self::$_subdomain = self::get_subdomain_from_cloud();
-        update_site_option('cc_subdomain', $subdomain);
+        update_site_option('cc_subdomain', self::$_subdomain);
         CC_Log::write('Getting the subdomain from the cloud because it is not in the database: ' . self::$_subdomain);
       }
       else {

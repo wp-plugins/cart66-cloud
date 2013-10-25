@@ -1,5 +1,5 @@
 jQuery(document).ready(function($) {
-  $('.cart66-button').live("click", function() {
+  $('.cc_product_wrapper').delegate('.cart66-button', "click", function() {
     var form = $(this).closest('form');
     var query_string = form.serialize();
     var data = 'action=cc_ajax_add_to_cart&' + query_string;
@@ -10,15 +10,12 @@ jQuery(document).ready(function($) {
       data: data,
       dataType: 'json',
       success: function(out) {
-        console.log('Reached the success function');
-        console.log(out);
         if(out.task == 'stay') {
           form.append('<div class="ajax_add_to_cart_message"><span class="alert alert-success ajax_button_notice"><a href="#" title="close" class="cc_close_message"><i class="icon-remove"></i></a><span class="cc_ajax_message">' + out.response + '</span></span></div>');
           $('.cart66-button').trigger('CC:item_added');
           refresh_widget();
         }
         else if(out.task == 'redirect') {
-          console.log(out.url);
           window.location.replace(out.url);
         }
       },
@@ -44,7 +41,7 @@ jQuery(document).ready(function($) {
     }
   }
 
-  $('.cc_close_message').live('click', function() {
+  $('.cc_product_wrapper').delegate('.cc_close_message', 'click', function() {
     $(this).parent().hide();
     return false;
   });

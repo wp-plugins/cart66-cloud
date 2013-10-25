@@ -17,7 +17,7 @@ class CC_FlashData {
     // Do not instantiate this class
   }
 
-  private function init($space='default') {
+  private static function init($space='default') {
     if( !(isset(self::$_data) && is_array(self::$_data)) ) {
       self::$_data = array('default' => array());
     }

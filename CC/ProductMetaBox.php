@@ -45,7 +45,7 @@ class CC_ProductMetaBox {
     echo CC_View::get($view, $data);
   }
   
-  public function save($post_id) {
+  public static function save($post_id) {
     // Do not save during autosaves
     if(defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
       CC_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] Not saving because I think it is doing an autosave");
