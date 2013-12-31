@@ -47,12 +47,15 @@ class CC_Visitor {
 
       $categories = get_categories($category_args);
 
-      foreach($categories as $cat) {
-        if(!$this->can_view_post_category($cat->cat_ID)) {
-          // CC_Log::write("Looping and Excluding category id: " . $cat->cat_ID);
-          self::$_excluded_cats[] = $cat->cat_ID;
+      if($categories && !isset($categories['errors'])){
+        foreach($categories as $cat) {
+          if(!$this->can_view_post_category($cat->cat_ID)) {
+            // CC_Log::write("Looping and Excluding category id: " . $cat->cat_ID);
+            self::$_excluded_cats[] = $cat->cat_ID;
+          }
         }
       }
+      
     }
   }
 

@@ -43,6 +43,7 @@ class CC_ShortcodeManager {
     add_shortcode('cc_cart_item_count',   array('CC_ShortcodeManager', 'cc_cart_item_count'));
     add_shortcode('cc_cart_subtotal',     array('CC_ShortcodeManager', 'cc_cart_subtotal'));
     add_shortcode('cc_visitor_name',      array('CC_ShortcodeManager', 'cc_visitor_name'));
+    add_shortcode('cc_product_price',     array('CC_ShortcodeManager', 'cc_product_price'));
   }
 
   public static function cc_cart_item_count($args, $content) {
@@ -57,29 +58,45 @@ class CC_ShortcodeManager {
     return CC::visitor_name();
   }
 
+  public static function cc_product_price($args) {
+    $price = '';
+    $product_sku = isset($args['sku']) ? $args['sku'] : false;
+    if($product_sku) {
+      $lib = new CC_Library();
+      $products = $lib->get_products();
+      foreach($products as $p) {
+        if($p['sku'] == $product_sku) {
+          CC_Log::write("Getting price for product: " . print_r($p, TRUE));
+          $price = $p['on_sale'] == 1 ? $p['formatted_sale_price'] : $p['formatted_price'];
+        }
+      }
+    }
+
+    CC_Log::write("Returning product price for $product_sku: $price");
+    return $price;
+  }
+
   public static function cc_product($args, $content) {
     $product_loader = get_site_option('cc_product_loader', 'server');
-    $out = '<div class="cc_product_wrapper">';
+    $lib = new CC_Library();
+    $subdomain = $lib->get_subdomain();
+    $id = CC_Common::rand_string(12, 'lower');
+    $product_form = '';
+    $client_loading = 'true';
+
+    $product_id = isset($args['id']) ? $args['id'] : false;
+    $product_sku = isset($args['sku']) ? $args['sku'] : false;
+    $display_quantity = isset($args['quantity']) ? $args['quantity'] : 'true';
+    $display_price = isset($args['price']) ? $args['price'] : 'true';
+    $display_mode = isset($args['display']) ? $args['display'] : '';
 
     if($product_loader == 'server' || preg_match('/(?i)msie [2-9]/',$_SERVER['HTTP_USER_AGENT'])) {
       // if IE<=9 do not use the ajax product form method
-      $out .= self::cc_product_via_api($args, $content);
-    }
-    else {
-      $product_id = isset($args['id']) ? $args['id'] : false;
-      $product_sku = isset($args['sku']) ? $args['sku'] : false;
-      $display_quantity = isset($args['quantity']) ? $args['quantity'] : 'true';
-      $display_price = isset($args['price']) ? $args['price'] : 'true';
-      $display_mode = isset($args['display']) ? $args['display'] : '';
-
-      $lib = new CC_Library();
-      $subdomain = $lib->get_subdomain();
-      $id = CC_Common::rand_string(12, 'lower');
-
-      $out .= "<div id='" . $id . "' class='cc_product' data-subdomain='$subdomain' data-sku='$product_sku' data-quantity='$display_quantity' data-price='$display_price' data-display='$display_mode'></div>";
+      $product_form =  self::cc_product_via_api($args, $content);
+      $client_loading = 'false';
     }
 
-    $out .= '</div>';
+    $out = "<div class=\"cc_product_wrapper\"><div id='" . $id . "' class='cc_product' data-subdomain='$subdomain' data-sku='$product_sku' data-quantity='$display_quantity' data-price='$display_price' data-display='$display_mode' data-client='$client_loading'>$product_form</div></div>";
 
     return $out;
   }

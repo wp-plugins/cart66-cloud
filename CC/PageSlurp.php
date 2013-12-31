@@ -143,7 +143,7 @@ class CC_PageSlurp {
     return $templates;
   }
 
-  public function look_for_full_width_page_template() {
+  public static function look_for_full_width_page_template() {
 	  $template = false;
 	  $hints = array('full', 'no sidebar', 'one');
 

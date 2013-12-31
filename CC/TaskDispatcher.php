@@ -74,7 +74,7 @@ class CC_TaskDispatcher {
         }
 
         if(isset($_GET['redirect'])) {
-          CC_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] Redirect is set in $_GET: " . $_GET['redirect']);
+          CC_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . '] Redirect is set in $_GET: ' . print_r($_GET['redirect'], true));
           $redirect = strtolower($_GET['redirect']);
           if($redirect == 'checkout') {
             $redirect_url = CC_Cart::checkout_url();
@@ -107,7 +107,7 @@ class CC_TaskDispatcher {
       die();
     }
     else {
-      $sku = $_POST['sku'];
+      $sku = $_REQUEST['sku']; // This is $_REQUEST and not $_POST because of add to cart links sending the SKU via query string param
       CC_FlashData::set($sku, $response['body']);
     }
   }

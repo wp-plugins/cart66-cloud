@@ -206,6 +206,8 @@ class CC_Cart {
   }
 
   public static function add_to_cart($post_data) {
+    $post_data = CC_Common::strip_slashes($post_data);
+    CC_Log::write("Add to cart post data: " . print_r($post_data, TRUE));
     $cart_key = self::get_cart_key();
     $lib = new CC_Library();
     $response = $lib->add_to_cart($cart_key, $post_data);

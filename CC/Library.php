@@ -38,14 +38,19 @@ class CC_Library {
    * Return an array of arrays of product data
    * 
    *  [0] => Array (
-   *    [id] => 51ae14f3e4f1cb8763000048
-   *    [name] => Fiskars Axe
-   *    [sku] => axe
-   *    [price] => 39.0
-   *    [on_sale] => 
-   *    [sale_price] => 
+   *    [id] => 522f543ddab99857e9000047
+   *    [name] => Boomerang Hiking Boot
+   *    [sku] => boot
+   *    [price] => 65.0
+   *    [on_sale] =>
+   *    [sale_price] =>
    *    [currency] => $
-   *    [expires_after] => 
+   *    [expires_after] =>
+   *    [formatted_price] => $65.00
+   *    [formatted_sale_price] => $
+   *    [digital] =>
+   *    [type] => product
+   *    [status] => available
    *  )
    *
    * @return array

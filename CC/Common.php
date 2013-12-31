@@ -103,6 +103,19 @@ class CC_Common {
     return $data;
   }
 
+
+  public static function strip_slashes($value) {
+    if(get_magic_quotes_gpc() || function_exists('wp_magic_quotes')) {
+      $value = self::strip_slashes_deep($value); 
+    }
+    return $value;
+  }
+
+  public static function strip_slashes_deep($value) {
+    $value = is_array($value) ?  array_map(array('CC_Common', 'strip_slashes_deep'), $value) : stripslashes($value);
+    return $value;
+  }
+
   /**
    * Remove the following characters: < > \ : ; `
    */
