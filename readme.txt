@@ -3,8 +3,8 @@ Contributors: reality66,
 Donate link: http://cart66.com
 Tags: ecommerce, e-commerce, shopping, cart, store, cart66, download, digital, downloadable, sell, inventory, shipping, tax, donations products, sales, shopping cart, cloud, sky
 Requires at least: 2.8.2
-Tested up to: 3.7
-Stable tag: 1.6.7
+Tested up to: 3.8
+Stable tag: 1.6.8
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -93,6 +93,13 @@ PCI Compliance is a set of requirements that your business needs to meet in orde
 
 == Changelog ==
 
+<<<<<<< HEAD
+=======
+= 1.6.8 - 1/14/2014 =
+
+- Fixed: Custom page slurp templates can now be found in child themes
+
+>>>>>>> refs/heads/development
 = 1.6.7 - 12/31/2013 =
 
 - New: Added cc_product_price shortcode

@@ -3,7 +3,7 @@
 Plugin Name: Cart66 Cloud
 Plugin URI: http://cart66.com
 Description: Securely Hosted Ecommerce For WordPress
-Version: 1.6.7
+Version: 1.6.8
 Author: Reality66
 Author URI: http://www.reality66.com
 
@@ -37,8 +37,7 @@ if(!defined('CC_PATH')) {
 
 if(!class_exists('CC_Loader')) {
   require 'autoloader.php';
-
-  define('CC_VERSION_NUMBER', '1.6.7');
+  define('CC_VERSION_NUMBER', '1.6.8');
 
   // IS_ADMIN is true when the dashboard or the administration panels are displayed
   if(!defined('IS_ADMIN')) {

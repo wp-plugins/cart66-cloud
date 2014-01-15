@@ -52,9 +52,12 @@ class CC_PageSlurp {
 	}
 
 	public function set_page_template() {
+    $path = get_stylesheet_directory();
 	  $template = $this->get_selected_page_template();
-    if(file_exists(TEMPLATEPATH . '/' . $template)) {
-      load_template(TEMPLATEPATH . '/' . $template);
+    CC_Log::write("Setting the page template: " . $path . '/' . $template);
+
+    if(file_exists($path . '/' . $template)) {
+      load_template($path . '/' . $template);
       die();
     }
 	}
