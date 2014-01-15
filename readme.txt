@@ -14,7 +14,7 @@ Cart66 Cloud gives you everything you need for a secure and PCI compliant store 
 
 Cart66 Cloud let's you sell anything and handles all the details of keeping your store secure. Sell digital files, ship products, and even sell memberships and subscriptions. Cart66 Cloud includes a built-in recurring billing engine and support for 50 payment gateways. Membership management features to restrict access to content on your site is included too! Unlike other e-commerce plugins where you have to buy add-ons and worry about SSL certificates and security scans, Cart66 Cloud gives you everything you need all in one easy to use package. We even handle all of the [requirements for PCI compliance](http://cart66.com/blog/what-you-need-to-know-about-pci-compliance/ "PCI Compliance") for you so you don't have to do anything but start selling.
 
-[vimeo http://vimeo.com/67696541]
+[vimeo http://vimeo.com/83884705]
 
 = Features =
 
@@ -93,13 +93,10 @@ PCI Compliance is a set of requirements that your business needs to meet in orde
 
 == Changelog ==
 
-<<<<<<< HEAD
-=======
 = 1.6.8 - 1/14/2014 =
 
 - Fixed: Custom page slurp templates can now be found in child themes
 
->>>>>>> refs/heads/development
 = 1.6.7 - 12/31/2013 =
 
 - New: Added cc_product_price shortcode
