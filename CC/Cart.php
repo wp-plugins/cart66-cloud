@@ -20,7 +20,6 @@ class CC_Cart {
   public static function get_summary() {
     if(!isset(self::$_cart_summary)) {
       self::$_cart_summary = self::load_summary();
-      // CC_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] Cart summary: " . print_r(self::$_cart_summary, true));
     }
     return self::$_cart_summary;
   }
@@ -162,7 +161,7 @@ class CC_Cart {
   public static function sign_out_url() {
     $lib = new CC_Library();
     $visitor = new CC_Visitor();
-    $redirect_url = get_site_url();
+    $redirect_url = home_url();
     $url = $lib->sign_out_url($redirect_url);
     CC_Log::write('Sign out URL: ' . $url);
     return $url;
@@ -265,7 +264,7 @@ class CC_Cart {
         );
       }
 
-      CC_Log::write('Ajax created :: response code 201 :: out put: ' . print_r($out, TRUE));
+      CC_Log::write('Ajax created :: response code 201 :: output: ' . print_r($out, TRUE));
 
       header('HTTP/1.1 201: Created', true, 201);
       header('Content-Type: application/json');
@@ -310,5 +309,15 @@ class CC_Cart {
   public static function subtotal() {
     self::load_summary();
     return self::$_cart_summary->subtotal;
+  }
+
+  public static function show_errors() {
+    $data = CC_FlashData::get_all('cart_error');
+    if(count($data)) {
+      $data['link'] = add_query_arg(array('cc_task' => FALSE, 'sku' => FALSE, 'quantity' => FALSE, 'redirect' => FALSE));
+      CC_Log::write('Checking for cart errors in footer: ' . print_r($data, TRUE));
+      $view = CC_View::get(CC_PATH . 'views/error_overlay.phtml', $data);
+      echo $view;
+    }
   }
 }

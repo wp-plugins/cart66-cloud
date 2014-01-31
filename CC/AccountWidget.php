@@ -91,8 +91,9 @@ class CC_AccountWidget extends WP_Widget {
     $history_url = ($_POST['show_link_history'] == 1) ? CC_Cart::order_history_url() : false;
     $profile_url = ($_POST['show_link_profile'] == 1) ? CC_Cart::profile_url() : false;
 
-    $sign_in_url = CC_Cart::sign_in_url();
-    $sign_out_url = get_site_url() . '/sign_out';
+    $home_url = home_url();
+    $sign_in_url = $home_url . '/sign_in/';
+    $sign_out_url = $home_url . '/sign_out/';
 
     $visitor = new CC_Visitor();
     $logged_in_message = str_replace('%name%', '<span class="cc_visitor_name">' . $visitor->get_token('name') . '</span>', CC_Common::scrub('logged_in_message'));

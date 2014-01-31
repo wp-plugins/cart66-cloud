@@ -125,7 +125,7 @@ class CC_Visitor {
   }
 
   public function log_in($token, $name) {
-    $expire = time() + 60*60*24*30; // Expire in 30 days
+    $expire = 0; // Expire cookie at end of session
     $data = $token . '~' . $name;
     $_COOKIE['ccm_token'] = $data;
     self::$_token = $data;

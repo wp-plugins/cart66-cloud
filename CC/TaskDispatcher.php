@@ -55,7 +55,6 @@ class CC_TaskDispatcher {
   public static function add_to_cart() {
     $post_data = false;
 
-    CC_Cart::get_cart_key(); // Create cart if one does not already exist.
     $redirect_url = CC_Cart::get_redirect_url();
     CC_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] Default redirect url is now set to: $redirect_url");
 
@@ -66,9 +65,14 @@ class CC_TaskDispatcher {
       $post_data = $_POST;
     }
     else {
-      if(isset($_GET['sku'])) {
+      if(!isset($_GET['sku']) || strlen($_GET['sku']) < 1) {
+        CC_Log::write("Aborting add to cart because no sku was provided.");
+        return; // Do not process GET requests that do not contain a product sku
+      }
+      elseif(isset($_GET['sku'])) {
         $product_id = $_GET['sku'];
         $quantity = 1;
+
         if(isset($_GET['quantity'])) {
           $quantity = (int)$_GET['quantity'];
         }
@@ -76,25 +80,42 @@ class CC_TaskDispatcher {
         if(isset($_GET['redirect'])) {
           CC_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . '] Redirect is set in $_GET: ' . print_r($_GET['redirect'], true));
           $redirect = strtolower($_GET['redirect']);
-          if($redirect == 'checkout') {
-            $redirect_url = CC_Cart::checkout_url();
-            CC_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] Set redirect url to the checkout url: $redirect_url");
-          }
-          elseif($redirect == 'cart') {
-            $redirect_url = CC_Cart::view_cart_url();
-            CC_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] Set redirect url to the view cart url: $redirect_url");
+        }
+        else {
+          // The redirect URL was not provided in the add to cart link, so use the system default
+          $redirect_type = get_site_option('cc_redirect_type');
+          if($redirect_type == 'checkout') {
+            $redirect = 'checkout';
           }
           else {
-            $redirect_url = $redirect;
-            CC_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] Set redirect url to a custom url: $redirect_url");
+            // If the redirect value is not provided or if it is view_cart then redirect to the view cart page
+            $redirect = 'cart';
           }
         }
+
+         
+        if($redirect == 'checkout') {
+          $redirect_url = CC_Cart::checkout_url();
+          CC_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] Set redirect url to the checkout url: $redirect_url");
+        }
+        elseif($redirect == 'cart') {
+          $redirect_url = CC_Cart::view_cart_url();
+          CC_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] Set redirect url to the view cart url: $redirect_url");
+        }
+        else {
+          $redirect_url = $redirect;
+          CC_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] Set redirect url to a custom url: $redirect_url");
+        }
+
         $post_data = array(
           'product_id' => $product_id,
           'quantity' => $quantity
         );
       }      
     }
+
+    CC_Log::write('Getting cart key which will create a new cart if one does not already exist');
+    CC_Cart::get_cart_key(); // Create cart if one does not already exist.
 
     CC_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] Calling add to cart with this data: " . print_r($post_data, true));
     $response = CC_Cart::add_to_cart($post_data);
@@ -108,7 +129,7 @@ class CC_TaskDispatcher {
     }
     else {
       $sku = $_REQUEST['sku']; // This is $_REQUEST and not $_POST because of add to cart links sending the SKU via query string param
-      CC_FlashData::set($sku, $response['body']);
+      CC_FlashData::set('response_code', $response['response']['code'], 'cart_error');
     }
   }
 

@@ -32,6 +32,9 @@ class CC_Cart66Cloud {
     // Enqueue cart66 styles
     add_action('wp_enqueue_scripts', array('CC_Cart', 'enqueue_cart66_styles'));
     add_action('wp_enqueue_scripts', array('CC_Library', 'enqueue_scripts'));
+
+    // Add footer messages
+    add_action('wp_footer', array('CC_Cart', 'show_errors'));
   }
 
   public function init_admin() {

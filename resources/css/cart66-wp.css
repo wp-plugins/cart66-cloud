@@ -39,6 +39,20 @@
 .cart66 .cart66-form .ajax_add_to_cart_message .alert .cc_ajax_message {
   font-family: arial;
   font-size: 12px;
+  display: block !important; 
+  line-height: 12px;
+  text-align: center;
+}
+
+#content .cart66 .pull-right.ajax_view_cart_button, .cart66 .pull-right.ajax_view_cart_button {
+  float: none !important;
+  display: block;
+  margin-top: 12px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 12em;
+  height: auto !important;
+  border: 1px solid #BBBBBB;
 }
 
 #content .cart66 .ajax_add_to_cart_message .alert-success, 
@@ -46,4 +60,42 @@
   background-color: #eeeeee;
   border-color: #e9e9e9;
   color: #333333;
+}
+
+.cc_error_code {
+  font-size: small;
+  color: #dedede;
+  float: right;
+}
+
+.cc_error_code_hidden {
+  font-size: small;
+  color: #ffffff;
+  float: right;
+}
+
+#cc_error_overlay {
+    display: block; /* ensures it’s invisible until it’s called */
+    position: absolute; /* makes the div go into a position that’s absolute to the browser viewing area */
+    left: 25%; /* positions the div half way horizontally */
+    top: 25%; /* positions the div half way vertically */
+    padding: 25px; 
+    border: 2px solid black;
+    background-color: #ffffff;
+    width: 50%;
+    height: 100px;
+    z-index: 100; /* makes the div the top layer, so it’ll lay on top of the other content */
+}
+#cc_error_fade {
+    display: block;  /* ensures it’s invisible until it’s called */
+    position: absolute;  /* makes the div go into a position that’s absolute to the browser viewing area */
+    left: 0%; /* makes the div span all the way across the viewing area */
+    top: 0%; /* makes the div span all the way across the viewing area */
+    background-color: black;
+    -moz-opacity: 0.7; /* makes the div transparent, so you have a cool overlay effect */
+    opacity: .70;
+    filter: alpha(opacity=70);
+    width: 100%;
+    height: 100%;
+    z-index: 90; /* makes the div the second most top layer, so it’ll lay on top of everything else EXCEPT for divs with a higher z-index (meaning the #overlay ruleset) */
 }
