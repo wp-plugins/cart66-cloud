@@ -54,7 +54,20 @@
       </tr>
 
       <tr>
-        <th scope="row"><label for="cc_selected_page_template"><?php _e('Page template for Cart66 Cloud', 'cart66'); ?></label></th>
+        <th scope="row"><label for="cc_page_slurp_mode"><?php _e('Page Slurp Mode', 'cart66'); ?></label></th>
+        <td>
+          <select name="cc_settings[cc_page_slurp_mode]" id="cc_settings_cc_page_slurp_mode">
+            <option value="physical" <?php echo $slurp_mode == 'physical' ? 'selected="selected"' : '' ?>>Physical Page</option>
+            <option value="virtual"  <?php echo $slurp_mode == 'virtual' ? 'selected="selected"' : '' ?>>Virtual Page</option>
+          </select>
+          <p class="description"><?php _e('Physical page mode recommended', 'cart66'); ?></p>
+        </td>
+      </tr>
+
+
+      <?php if($slurp_mode == 'virtual'): ?>
+      <tr>
+        <th scope="row"><label for="cc_selected_page_template"><?php _e('Virtual page template', 'cart66'); ?></label></th>
         <td>
           <select name="cc_settings[cc_selected_page_template]" id="cc_settings_cc_selected_page_template">
             <?php foreach($templates as $file => $description): ?>
@@ -62,9 +75,10 @@
               <option value="<?php echo $file; ?>" <?php echo $file == $selected_page_template ? 'selected="selected"' : ''; ?>><?php echo $description; ?></option>
             <?php endforeach; ?>
           </select>
-          <p class="description"><?php _e('Which page template would you like to use on Cart66 Cloud', 'cart66'); ?></p>
+          <p class="description"><?php _e('If you are using Virtual Page mode, which page template would you like to use on Cart66 Cloud', 'cart66'); ?></p>
         </td>
       </tr>
+      <?php endif; ?>
 
       <tr validn-"top">
         <th scope="row"><?php _e('Your custom subdomain', 'cart66'); ?></th>

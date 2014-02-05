@@ -18,7 +18,7 @@ class CC_AccountWidget extends WP_Widget {
     $defaults = array(
       'title' => 'My Account', 
       'logged_out_message' => 'Please sign in',
-      'logged_in_message' => 'Hey! Welcome %name%',
+      'logged_in_message' => 'Welcome %name%',
       'show_link_history' => '0',
       'show_link_profile' => '0',
     );

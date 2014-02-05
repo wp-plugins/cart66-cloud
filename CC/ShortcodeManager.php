@@ -36,14 +36,19 @@ class CC_ShortcodeManager {
   }
   
   public static function register_shortcodes() {
-    add_shortcode('cc_product',           array('CC_ShortcodeManager', 'cc_product'));
-    add_shortcode('cc_product_link',      array('CC_ShortcodeManager', 'cc_product_link'));
-    add_shortcode('cc_show_to',           array('CC_ShortcodeManager', 'cc_show_to'));
-    add_shortcode('cc_hide_from',         array('CC_ShortcodeManager', 'cc_hide_from'));
-    add_shortcode('cc_cart_item_count',   array('CC_ShortcodeManager', 'cc_cart_item_count'));
-    add_shortcode('cc_cart_subtotal',     array('CC_ShortcodeManager', 'cc_cart_subtotal'));
-    add_shortcode('cc_visitor_name',      array('CC_ShortcodeManager', 'cc_visitor_name'));
-    add_shortcode('cc_product_price',     array('CC_ShortcodeManager', 'cc_product_price'));
+    add_shortcode('cc_product',              array('CC_ShortcodeManager', 'cc_product'));
+    add_shortcode('cc_product_link',         array('CC_ShortcodeManager', 'cc_product_link'));
+    add_shortcode('cc_show_to',              array('CC_ShortcodeManager', 'cc_show_to'));
+    add_shortcode('cc_hide_from',            array('CC_ShortcodeManager', 'cc_hide_from'));
+    add_shortcode('cc_cart_item_count',      array('CC_ShortcodeManager', 'cc_cart_item_count'));
+    add_shortcode('cc_cart_subtotal',        array('CC_ShortcodeManager', 'cc_cart_subtotal'));
+    add_shortcode('cc_visitor_name',         array('CC_ShortcodeManager', 'cc_visitor_name'));
+    add_shortcode('cc_product_price',        array('CC_ShortcodeManager', 'cc_product_price'));
+    add_shortcode('cc_visitor_name',         array('CC_ShortcodeManager', 'cc_visitor_name'));
+    add_shortcode('cc_visitor_first_name',   array('CC_ShortcodeManager', 'cc_visitor_first_name'));
+    add_shortcode('cc_visitor_last_name',    array('CC_ShortcodeManager', 'cc_visitor_last_name'));
+    add_shortcode('cc_visitor_email',        array('CC_ShortcodeManager', 'cc_visitor_email'));
+    add_shortcode('cc_visitor_phone_number', array('CC_ShortcodeManager', 'cc_visitor_phone_number'));
   }
 
   public static function cc_cart_item_count($args, $content) {
@@ -56,6 +61,22 @@ class CC_ShortcodeManager {
 
   public static function cc_visitor_name($args, $content) {
     return CC::visitor_name();
+  }
+
+  public static function cc_visitor_first_name($args, $content) {
+    return CC::visitor_first_name();
+  }
+
+  public static function cc_visitor_last_name($args, $content) {
+    return CC::visitor_last_name();
+  }
+
+  public static function cc_visitor_email($args, $content) {
+    return CC::visitor_email();
+  }
+
+  public static function cc_visitor_phone_number($args, $content) {
+    return CC::visitor_phone_number();
   }
 
   public static function cc_product_price($args) {

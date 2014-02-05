@@ -29,7 +29,8 @@ class CC_SettingsPage {
 	    'selected_page_template' => $selected_template,
 	    'redirect_type' => get_site_option('cc_redirect_type'),
       'logging' => get_site_option('cc_logging'),
-      'product_loader' => get_site_option('cc_product_loader', 'server')
+      'product_loader' => get_site_option('cc_product_loader', 'server'),
+      'slurp_mode' => get_site_option('cc_page_slurp_mode', 'physical')
 	  );
 
     $view = CC_View::get(CC_PATH . 'views/admin/main_settings.phtml', $data);
@@ -47,6 +48,11 @@ class CC_SettingsPage {
           if(!update_site_option($key, $value)) {
             $this->_errors[] = __('Failed to save: ' . $key);
           }
+        }
+
+        if($key == 'cc_page_slurp_mode' && $value = 'physical') {
+          // Create physical page slurp template page
+          CC_PhysicalPageSlurp::create_template();
         }
       }
 

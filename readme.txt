@@ -4,7 +4,7 @@ Donate link: http://cart66.com
 Tags: ecommerce, e-commerce, shopping, cart, store, cart66, download, digital, downloadable, sell, inventory, shipping, tax, donations products, sales, shopping cart, cloud, sky
 Requires at least: 2.8.2
 Tested up to: 3.8
-Stable tag: 1.6.9
+Stable tag: 1.7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -93,6 +93,12 @@ PCI Compliance is a set of requirements that your business needs to meet in orde
 
 == Changelog ==
 
+= 1.7.0 - 2/4/2014 =
+
+- New: Added physical page slurp mode to improve compatibility with more plugins and themes
+- New: Added new PHP [API functions](https://cart66.zendesk.com/entries/26435755-PHP-Helper-Functions) to get user data for the logged in visitor
+- New: Added new [shortcodes](https://cart66.zendesk.com/entries/23447965-Cart66-Cloud-Shortcodes) to access data about the logged in visitor
+
 = 1.6.9 - 1/31/2014 =
 
 - Fixed: Receipt URL redirection failing when WordPress is installed in a subdirectory
@@ -100,7 +106,6 @@ PCI Compliance is a set of requirements that your business needs to meet in orde
 - Updated: Improvements to keep the logged in status of members in sync between the secure cloud and WordPress
 - Updated: Performance improvements to reduce the number of empty shopping carts that get created
 - Updated: New CSS to improve the display of the "product added to cart" notification
-- Updated: Improved error messages for when add to cart links are unable to add products to the cart
 
 = 1.6.8 - 1/14/2014 =
 

@@ -23,7 +23,16 @@ class CC_Cart66Cloud {
   public function init_public() {
     $this->members_public_init();
     // Check for page slurp
-    add_action('init', array('CC_PageSlurp', 'check'));
+    if(CC_PhysicalPageSlurp::page_id()) {
+      add_action('template_redirect', array('CC_PhysicalPageSlurp', 'detect_slurp'));
+    }
+    else {
+      add_action('init', array('CC_PageSlurp', 'check'));
+    }
+
+    // Always hide the page slurp template from the list of pages
+    add_filter('get_pages', 'CC_PhysicalPageSlurp::hide_page_slurp');
+
     add_action('init', array('CC_Cart', 'get_summary'));
     add_action('init', array('CC_ShortcodeManager', 'register_shortcodes'));
     add_action('template_redirect', array('CC_Cart', 'redirect_cart_links'));

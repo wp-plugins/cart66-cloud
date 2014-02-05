@@ -458,6 +458,29 @@ class CC_Library {
     return $key;
   }
 
+  /**
+   * Return an array of user data
+   *
+   * If no data could be retrieved and empty array is returned.
+   *
+   * @return array
+   */
+  public function get_user_data($token) {
+    $user_data = array();
+    if(!empty($token) && strlen($token) > 3) {
+      $url = self::$_api . "accounts/$token";
+      $headers = array('Accept' => 'application/json');
+      $response = wp_remote_get($url, self::_basic_auth_header($headers));
+      CC_Log::write('Get user data response: ' . print_r($response, true));
+      if(self::_response_ok($response)) {
+        $json = $response['body'];
+        $user_data = json_decode($json, true);
+        CC_Log::write('Received user data: ' . print_r($user_data, true));
+      }
+    }
+    return $user_data;
+  }
+
   /* ==========================================================================
    * Protected functions
    * ==========================================================================
