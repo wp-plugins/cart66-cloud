@@ -200,6 +200,7 @@ class CC_PageSlurp {
       try {
         $lib = new CC_Library();
         $content = $lib->get_receipt_content($order_id);
+        do_action('cc_load_receipt', $order_id);
       }
       catch(CC_Exception_Store_ReceiptNotFound $e) {
         $content = '<p>Unable to find receipt for the given order number.</p>';

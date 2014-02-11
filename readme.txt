@@ -2,9 +2,9 @@
 Contributors: reality66,
 Donate link: http://cart66.com
 Tags: ecommerce, e-commerce, shopping, cart, store, cart66, download, digital, downloadable, sell, inventory, shipping, tax, donations products, sales, shopping cart, cloud, sky
-Requires at least: 2.8.2
-Tested up to: 3.8
-Stable tag: 1.7.0
+Requires at least: 3.2
+Tested up to: 3.8.1
+Stable tag: 1.7.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -49,7 +49,7 @@ Cart66 Cloud is the most secure way to sell with WordPress and provides a full s
 
 = Minimum Requirements =
 
-* WordPress 2.8.2 or greater
+* WordPress 3.2 or greater
 * PHP version 5.2.4 or greater
 * MySQL version 5.0 or greater
 
@@ -92,6 +92,16 @@ PageSlurp is the technology that we invented to provide a secure and PCI complia
 PCI Compliance is a set of requirements that your business needs to meet in order to accept credit card payments. If you are using Cart66 Cloud for your e-commerce, then your website is PCI compliant. If you are not using Cart66 Cloud then you need to handle all of the PCI requirements on your own. Becoming PCI compliant on your own is very expensive and challenging. For more information about PCI compliance, see [What you need to know about PCI compliance](http://cart66.com/blog/what-you-need-to-know-about-pci-compliance/ "PCI Compliance").
 
 == Changelog ==
+
+= 1.7.1 - 2/11/2014 =
+
+- New: Significant performance improvements
+- New: Added hook for for loading the receipt page
+- New: Added PHP helper function to programmatically retrieve order data
+- New: Embedded the secure Cart66 Cloud console in the WordPress plugin so you can do everything without ever leaving WordPress.
+- Updated: Logging in to the secure customer portal now redirects the visitor to the member home pages as defined in the WordPress plugin settings.
+- Updated: Improved synchronization between the logged in status between the secure cloud and WordPress.
+- Fixed: Stop duplicating physical page slurp template when changing page slurp mode back to virtual page
 
 = 1.7.0 - 2/4/2014 =
 

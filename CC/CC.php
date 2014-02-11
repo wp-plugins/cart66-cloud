@@ -90,4 +90,9 @@ class CC {
     return $phone_number;
   }
 
+  public static function order_data($order_id) {
+    $lib = new CC_Library();
+    $order_data = $lib->get_order_data($order_id);
+    return $order_data;
+  }
 }

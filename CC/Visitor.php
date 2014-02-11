@@ -10,7 +10,6 @@ class CC_Visitor {
 
   public function __construct() {
     $this->load_token();
-    $this->load_access_list();
     $this->load_restricted_cats();
     $this->load_excluded_category_ids();
   }
@@ -80,6 +79,7 @@ class CC_Visitor {
     else {
       // CC_Log::write('Not loading access list from cloud because it is already an array and is not forced to reload :: ' . print_r(self::$_access_list, true));
     }
+    return $access_list;
   }
 
   public function drop_access_list() {
@@ -102,7 +102,7 @@ class CC_Visitor {
    * @return array
    */
   public function get_access_list() {
-    $list = is_array(self::$_access_list) ? self::$_access_list : array();
+    $list = is_array(self::$_access_list) ? self::$_access_list : $this->load_access_list();
     return $list;
   }
 
@@ -118,10 +118,30 @@ class CC_Visitor {
       $token = CC_Common::scrub('cc_customer_token', $_GET);
       $name = CC_Common::scrub('cc_customer_first_name', $_GET);
       $this->log_in($token, $name);
-      // CC_Log::write("Checking for remote login and found -- $token || $name");
+      $this->sign_in_redirect();
     }
-    else {
-      // CC_Log::write("Checking for remote login -- not creating a login session.");
+  }
+
+  public function sign_in_redirect() {
+    $admin = new CC_Admin();
+    $member_home = $admin->get_option('member_home');    
+    $page_id = get_queried_object_id();
+    CC_Log::write("Memeber home value: $member_home :: $page_id");
+
+    if(empty($member_home)) {
+      // redirect to order history
+      $lib = new CC_Library();
+      $url = $lib->order_history_url();      
+      CC_Log::write("Sign in redirect to order history: $url");
+      wp_redirect($url);
+      exit();
+    }
+    elseif($page_id != $member_home) {
+      // redirect to member home page
+      $url = get_permalink($member_home);
+      CC_Log::write("Sign in redirect to WordPress URL: $url");
+      wp_redirect($url);
+      exit();
     }
   }
 

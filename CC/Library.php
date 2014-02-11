@@ -129,7 +129,7 @@ class CC_Library {
 
       $product_data = json_decode($response['body'], true);
       self::$_expiring_products = $product_data;
-      // CC_Log::write('Expiring products: ' . print_r($product_data, TRUE));
+      CC_Log::write('Loaded expiring products from the cloud: ' . print_r(self::$_expiring_products, TRUE));
     }
 
     return $product_data;
@@ -181,6 +181,18 @@ class CC_Library {
     }
 
     return $subdomain;
+  }
+
+  public function get_order_data($order_id) {
+    $order_data = array();
+    $url = self::$_api . "orders/$order_id";
+    $headers = array('Accept' => 'application/json');
+    $response = wp_remote_get($url, self::_basic_auth_header($headers));
+    if(self::_response_ok($response)) {
+      $order_data = json_decode($response['body'], true);
+      CC_Log::write('Order data: ' . print_r($order_data, true));
+    }
+    return $order_data;
   }
 
   /**
@@ -424,7 +436,7 @@ class CC_Library {
     $memberships = array();
     if(!empty($token) && strlen($token) > 3) {
       $url = self::$_api . "memberships/$token";
-      CC_Log::write("Getting memberships from the cloud: $url");
+      // CC_Log::write("Getting memberships from the cloud :: $url");
       $headers = array('Accept' => 'application/json');
       $response = wp_remote_get($url, self::_basic_auth_header($headers));
       if(self::_response_ok($response)) {
@@ -436,13 +448,12 @@ class CC_Library {
         else {
           foreach ($all as $order) {
             if(isset($order['status']) && $order['status'] == $status) {
-              CC_Log::write("Including membership in list: " . print_r($order, TRUE));
               $memberships[] = $order;
             }
           }
         }
       }
-      CC_Log::write("$url\nMembership list: " . print_r($memberships, true));
+      CC_Log::write("$url\nReceived membership list: " . print_r($memberships, true));
     }
     return $memberships;
   }

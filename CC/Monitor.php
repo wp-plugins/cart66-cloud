@@ -26,7 +26,6 @@ class CC_Monitor {
   public function restrict_pages($the_content) {
     global $post;
     $visitor = new CC_Visitor();
-    $admin = new CC_Admin();
     $message = '';
 
     // Check if page may be accessed

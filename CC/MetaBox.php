@@ -20,18 +20,21 @@ class CC_MetaBox {
   }
 
   public static function render_memberships_box($post) {
-    $lib = new CC_Library();
-    try {
-      $memberships = $lib->get_expiring_products();
-      CC_Log::write("Expiring products data: " . print_r($memberships, true));
-    }
-    catch(CC_Exception_API $e) {
-      $memberships = array(
-        array(
-          'name' => 'Products unavailable',
-          'sku' => ''
-        )
-      );
+    $memberships = array(
+      array(
+        'name' => 'Products unavailable',
+        'sku' => ''
+      )
+    );
+    if(current_user_can('edit_posts')) {
+      try {
+        $lib = new CC_Library();
+        $memberships = $lib->get_expiring_products();
+        CC_Log::write("Rendering memberships box using expiring products data: " . print_r($memberships, true));
+      }
+      catch(CC_Exception_API $e) {
+        CC_Log::write("Failed to load memberships" . $e->getMessage());
+      }
     }
 
     $requirements = get_post_meta($post->ID, '_ccm_required_memberships', true);

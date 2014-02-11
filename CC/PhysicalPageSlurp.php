@@ -30,7 +30,7 @@ class CC_PhysicalPageSlurp {
   public static function page_id() {
     $page_id = false;
     $slurp_mode = get_site_option('cc_page_slurp_mode', 'virtual');
-    if($slurp_mode == 'physical') {
+    if(is_admin() || $slurp_mode == 'physical') {
       $page = get_page_by_title('{{cart66_title}}');
       if(is_object($page) && $page->ID > 0) {
         $page_id = $page->ID;
@@ -158,6 +158,7 @@ class CC_PhysicalPageSlurp {
       try {
         $lib = new CC_Library();
         $receipt = $lib->get_receipt_content($order_id);
+        do_action('cc_load_receipt', $order_id);
       }
       catch(CC_Exception_Store_ReceiptNotFound $e) {
         $receipt = '<p>Unable to find receipt for the given order number.</p>';
@@ -175,9 +176,9 @@ class CC_PhysicalPageSlurp {
   public static function hide_page_slurp($pages) {
     $page_slurp_id = self::page_id();
     if($page_slurp_id) {
-      for($i=0; $i<count($pages); $i++) {
-        if($pages[$i]->ID == $page_slurp_id) {
-          unset($pages[$i]);
+      foreach($pages as $index => $page) {
+        if($page->ID == $page_slurp_id) {
+          unset($pages[$index]);
         }
       }
     }

@@ -8,16 +8,16 @@ class CC_Admin {
   public function __construct() {
     $this->_options = get_option('ccm_access_notifications');
     $this->_restricted_cats = get_option('ccm_category_restrictions');
-    self::$_memberships = $this->load_memberships();
   }
 
   public function load_memberships() {
+    $memberships = array();
+
     if(is_array(self::$_memberships)) {
       $memberships = self::$_memberships;
       CC_Log::write('Reusing memberships');
     }
     else {
-      $memberships = array();
       $lib = new CC_Library();
       try {
         $products = $lib->get_expiring_products();
@@ -63,6 +63,22 @@ class CC_Admin {
     }
     $view = CC_PATH . 'views/admin/member_settings.phtml';
     echo CC_View::get($view, $data);
+  }
+
+  public function add_secure_console_submenu() {
+    add_submenu_page(
+      'cart66',
+      __('Secure Console', 'cart66'),
+      __('Secure Console', 'cart66'),
+      'administrator',
+      'secure_console',
+      array('CC_Admin', 'render_secure_console_page')
+    );
+  }
+
+  public static function render_secure_console_page() {
+    $view = CC_PATH . 'views/admin/secure_console.phtml';
+    echo CC_View::get($view);
   }
 
   public function get_page_list() {
@@ -239,7 +255,8 @@ class CC_Admin {
         $out .= '<h3 class="cc_bar_head cc_gradient">' . $indent . $cat->name . '</h3>';
 
         $out .= '<div class="cc_cat_list">';
-        foreach(self::$_memberships as $name => $id) {
+        $memberships = $this->load_memberships();
+        foreach($memberships as $name => $id) {
           $checked = '';
           if(isset($this->_restricted_cats[$cat->term_id]) && is_array($this->_restricted_cats[$cat->term_id]) && in_array($id, $this->_restricted_cats[$cat->term_id])) {
             $checked = 'checked="checked"';
