@@ -141,7 +141,7 @@ class CC_Library {
    * @return mixed String or FALSE
    */
   public static function get_subdomain($force=FALSE) {
-    
+    self::init();
     if($force) {
       self::$_subdomain = self::get_subdomain_from_cloud();
       update_site_option('cc_subdomain', self::$_subdomain);
@@ -170,12 +170,15 @@ class CC_Library {
    * Return the subdomain from the cloud or false
    */
   public static function get_subdomain_from_cloud() {
+    self::init();
     $subdomain = false;
 
     $url = self::$_api . 'subdomain';
     $headers = array('Accept' => 'text/html');
+    CC_Log::write("Calling cloud for subdomain URL: $url");
     $response = wp_remote_get($url, self::_basic_auth_header($headers));
-
+    CC_Log::write("Response from cloud to get subdomain: $url " . print_r($response, true));
+    
     if(self::_response_ok($response)) {
       $subdomain = $response['body'];
     }
