@@ -1,9 +1,9 @@
 === Cart66 Cloud :: Ecommerce with security ===
 Contributors: reality66,
 Donate link: http://cart66.com
-Tags: ecommerce, e-commerce, shopping, cart, store, cart66, download, digital, downloadable, sell, inventory, shipping, tax, donations products, sales, shopping cart, cloud, sky
+Tags: ecommerce, e-commerce, shopping, cart, store, cart66, download, digital, donations, downloadable, sell, shipping, tax, invoices, products, sales, shopping cart, cloud
 Requires at least: 3.2
-Tested up to: 3.8.1
+Tested up to: 3.9.1
 Stable tag: 1.7.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
