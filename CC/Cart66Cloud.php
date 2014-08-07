@@ -15,10 +15,15 @@ class CC_Cart66Cloud {
     // Enqueue jQuery
     add_action('wp_enqueue_scripts', array('CC_Cart', 'enqueue_jquery'));
 
+    // Enqueue Chosen
+    add_action('admin_enqueue_scripts', array('CC_Cart', 'enqueue_chosen'));
+
     // Add actions to process all add to cart requests via ajax
     add_action('wp_enqueue_scripts', array('CC_Cart', 'enqueue_ajax_add_to_cart'));
     add_action('wp_ajax_cc_ajax_add_to_cart', array('CC_Cart', 'ajax_add_to_cart'));
     add_action('wp_ajax_nopriv_cc_ajax_add_to_cart', array('CC_Cart', 'ajax_add_to_cart'));
+
+    add_action('wp_ajax_cc_product_search', array('CC', 'product_search'));
   }
 
   public function init_public() {

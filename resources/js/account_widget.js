@@ -8,9 +8,9 @@ jQuery(document).ready(function($) {
   };
 
   $.post(cc_account_widget.ajax_url, data, function(response) {
-    $('#cc_account_widget').html(response);
+    $('.cc_account_widget').html(response);
   });
 
-  $('#cc_account_widget').spin('small');
+  $('.cc_account_widget').spin('small');
 });
 

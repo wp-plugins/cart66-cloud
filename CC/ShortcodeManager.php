@@ -84,13 +84,19 @@ class CC_ShortcodeManager {
     $product_sku = isset($args['sku']) ? $args['sku'] : false;
     if($product_sku) {
       $lib = new CC_Library();
-      $products = $lib->get_products();
-      foreach($products as $p) {
-        if($p['sku'] == $product_sku) {
-          CC_Log::write("Getting price for product: " . print_r($p, TRUE));
-          $price = $p['on_sale'] == 1 ? $p['formatted_sale_price'] : $p['formatted_price'];
-        }
+      try {
+        $products = $lib->get_products();
+        foreach($products as $p) {
+          if($p['sku'] == $product_sku) {
+            CC_Log::write("Getting price for product: " . print_r($p, TRUE));
+            $price = $p['on_sale'] == 1 ? $p['formatted_sale_price'] : $p['formatted_price'];
+          }
+        }  
       }
+      catch (CC_Exception_API $e) {
+        $price = "Error: " . $e->getMessage();
+      }
+      
     }
 
     CC_Log::write("Returning product price for $product_sku: $price");

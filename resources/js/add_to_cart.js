@@ -34,9 +34,9 @@ jQuery(document).ready(function($) {
   });
 
   function refresh_widget() {
-    if($('#cc_cart_widget').length > 0) {
+    if($('.cc_cart_widget').length > 0) {
       $.post(cc_cart.ajax_url, {action: 'render_cart66_cart_widget'}, function(response) {
-        $('#cc_cart_widget').html(response);
+        $('.cc_cart_widget').html(response);
       });
     }
   }

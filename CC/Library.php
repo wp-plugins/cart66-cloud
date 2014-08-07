@@ -65,9 +65,11 @@ class CC_Library {
         CC_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] CC_Library::get_products failed: $url :: " . print_r($response, true));
         throw new CC_Exception_API("Failed to retrieve products from Cart66 Cloud");
       }
-
-      self::$_products = json_decode($response['body'], true);
-      CC_Log::write('Called get_products() :: Loaded product data from the cloud: '); // . print_r(self::$_products, true));
+      else {
+        self::$_products = json_decode($response['body'], true);
+        CC_Log::write('Called get_products() :: Loaded product data from the cloud: '); // . print_r(self::$_products, true));  
+      }
+      
     }
     else {
       CC_Log::write('Called get_products() :: Reusing static product data: '); // . print_r(self::$_products, true));
@@ -76,6 +78,45 @@ class CC_Library {
     return self::$_products;
   }
 
+  /**
+   * Return an array of arrays of product data
+   * 
+   *  [0] => Array (
+   *    [id] => 522f543ddab99857e9000047
+   *    [name] => Boomerang Hiking Boot
+   *    [sku] => boot
+   *    [price] => 65.0
+   *    [on_sale] =>
+   *    [sale_price] =>
+   *    [currency] => $
+   *    [expires_after] =>
+   *    [formatted_price] => $65.00
+   *    [formatted_sale_price] => $
+   *    [digital] =>
+   *    [type] => product
+   *    [status] => available
+   *  )
+   *
+   * @return array
+   */
+  public function get_search_products($query="") {
+    
+    $url = self::$_api . 'products/search/?search=' . $query;
+    $headers = array('Accept' => 'application/json');
+    $response = wp_remote_get($url, self::_basic_auth_header($headers));
+
+    if(!self::_response_ok($response)) {
+      CC_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] CC_Library::get_products failed: $url :: " . print_r($response, true));
+      throw new CC_Exception_API("Failed to retrieve products from Cart66 Cloud");
+    }
+    else {
+      $output = json_decode($response['body'], true);
+      CC_Log::write('Called get_products() :: Loaded product data from the cloud: '. print_r(self::$_products, true));  
+    }
+      
+    return $output;
+  }
+  
   /**
    * Return an array of the expiring products (memberships & subscriptions)
    *
@@ -505,6 +546,7 @@ class CC_Library {
     $password = ''; // not in use
     $headers = array(
       'sslverify' => false,
+      'timeout' => 30,
       'headers' => array(
         'Authorization' => 'Basic ' . base64_encode($username . ':' . $password)
       )

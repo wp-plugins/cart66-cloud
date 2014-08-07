@@ -95,4 +95,11 @@ class CC {
     $order_data = $lib->get_order_data($order_id);
     return $order_data;
   }
+
+  public static function product_search($query){
+    $query = (isset($_REQUEST['q'])) ? $_REQUEST['q'] : '';
+    $lib = new CC_Library();
+    echo json_encode($lib->get_search_products($query));
+    die();
+  }
 }

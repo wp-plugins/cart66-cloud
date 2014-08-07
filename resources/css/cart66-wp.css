@@ -2,11 +2,11 @@
   color: red;
 }
 
-#cc_cart_widget_wrapper #cc_cart_widget_list {
+.cc_cart_widget_wrapper .cc_cart_widget_list {
   list-style-type: none;
 }
 
-#cc_cart_widget_wrapper #cc_cart_widget_list_item {
+.cc_cart_widget_wrapper .cc_cart_widget_list_item {
   list-style-image: none;
 }
 
