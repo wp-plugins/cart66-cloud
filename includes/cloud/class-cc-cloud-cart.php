@@ -141,10 +141,10 @@ class CC_Cloud_Cart {
         $response = wp_remote_get( $url, self::$cloud->basic_auth_header( $headers ) );
 
         if( is_wp_error( $response ) ) {
-            CC_Log::write( "CC_Library::get_add_to_cart_form had an error: " . print_r( $response, true ) );
+            CC_Log::write( 'CC_Cloud_Cart::get_add_to_cart_form had an error: ' . print_r( $response, true ) );
             throw new CC_Exception_API( 'Failed to retrieve product add to cart form from Cart66 Cloud' );
         } elseif ( $response['response']['code'] != 200 ) {
-            CC_Log::write('CC_Library::get_add_to_cart_form invalid response code: ' . print_r( $response, true ) );
+            CC_Log::write('CC_Cloud_Cart::get_add_to_cart_form invalid response code: ' . print_r( $response, true ) );
             throw new CC_Exception_API( 'Failed to retrieve product add to cart form from Cart66 Cloud :: Response code error :: ' . $response['response']['code'] );
         }
 

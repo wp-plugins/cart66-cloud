@@ -3,7 +3,7 @@
 Plugin Name: Cart66 Cloud
 Plugin URI: http://cart66.com
 Description: Securely Hosted Ecommerce For WordPress
-Version: 2.0
+Version: 2.0.1
 Author: Reality66
 Author URI: http://www.reality66.com
 
@@ -66,7 +66,7 @@ if ( ! class_exists('Cart66_Cloud') ) {
 
         public function __construct() {
             // Define constants
-            define( 'CC_VERSION_NUMBER', '2.0' );
+            define( 'CC_VERSION_NUMBER', '2.0.1' );
 
             // Register autoloader
             spl_autoload_register( array( $this, 'class_loader' ) );

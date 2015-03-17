@@ -79,8 +79,8 @@ class CC_Cart_Widget extends WP_Widget {
 
         $url = new CC_Cloud_URL();
         $data = array(
-            'view_cart_url' => $url->view_cart_url(),
-            'checkout_url'  => $url->checkout_url(),
+            'view_cart_url' => $url->view_cart(),
+            'checkout_url'  => $url->checkout(),
             'item_count'    => $item_count,
             'subtotal'      => $subtotal,
             'api_ok'        => $api_ok

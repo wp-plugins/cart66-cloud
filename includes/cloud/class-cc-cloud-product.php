@@ -66,7 +66,7 @@ class CC_Cloud_Product {
         $response = wp_remote_get( $url, self::$cloud->basic_auth_header( $headers ) );
 
         if ( !self::$cloud->response_ok( $response ) ) {
-            // CC_Log::write("CC_Library::get_products failed: $url :: " . print_r( $response, true ) );
+            // CC_Log::write("CC_Cloud_Product::get_products failed: $url :: " . print_r( $response, true ) );
             throw new CC_Exception_API( "Failed to retrieve products from Cart66 Cloud" );
         }
         else {

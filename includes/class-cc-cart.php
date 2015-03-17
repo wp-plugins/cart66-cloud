@@ -20,6 +20,12 @@ class CC_Cart {
         return self::$cart_summary;
     }
 
+    public static function get_cart_key( $create_if_empty = true ) {
+        $cloud_cart = new CC_Cloud_Cart();
+        $cart_key = $cloud_cart->get_cart_key( $create_if_empty );
+        return $cart_key;
+    }
+
     /**
      * Return stdClass summary of cart state
      *
@@ -66,9 +72,9 @@ class CC_Cart {
         $url = new CC_Cloud_URL();
 
         if ( $redirect_type == 'view_cart' ) {
-            $redirect_url = $url->view_cart_url();
+            $redirect_url = $url->view_cart();
         } elseif ( $redirect_type == 'checkout' ) {
-            $redirect_url = $cloud_cart->checkout_url();
+            $redirect_url = $url->checkout();
         } else {
             $redirect_url = $_SERVER['REQUEST_URI']; // Stay on same page
         }
@@ -129,17 +135,17 @@ class CC_Cart {
             $url = new CC_Cloud_URL();
 
             if('view_cart' == $redirect_type) {
-                $out['url'] = $url->view_cart_url();
+                $out['url'] = $url->view_cart();
             }
             elseif('checkout' == $redirect_type) {
-                $out['url'] = $url->checkout_url();
+                $out['url'] = $url->checkout();
             }
             else {
                 $product_info = json_decode($response['body'], true);
                 $product_name = $product_info['product_name'];
                 $message = $product_name . ' added to cart';
 
-                $view_cart = '<a href="' . $url->view_cart_url() . '" class="btn btn-small pull-right ajax_view_cart_button" rel="nofollow">View Cart <i class="icon-arrow-right" /></a>';
+                $view_cart = '<a href="' . $url->view_cart() . '" class="btn btn-small pull-right ajax_view_cart_button" rel="nofollow">View Cart <i class="icon-arrow-right" /></a>';
 
                 $out = array(
                     'task' => 'stay',

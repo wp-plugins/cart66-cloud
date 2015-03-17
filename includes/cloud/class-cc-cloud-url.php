@@ -52,7 +52,7 @@ class CC_Cloud_URL {
      * @param boolean $force_create_cart When true, create a cart if no cart key exists
      * @return string
      */
-    public function view_cart_url( $force_create_cart = false ) {
+    public function view_cart( $force_create_cart = false ) {
         $url = null;
 
         // Do not create a cart if the id is not available in the cookie unless it is forced
@@ -76,7 +76,7 @@ class CC_Cloud_URL {
      *
      * @return string
      */
-    public function checkout_url() {
+    public function checkout() {
         $url = null;
         $cloud_cart = new CC_Cloud_Cart();
         $cart_key = $cloud_cart->get_cart_key();

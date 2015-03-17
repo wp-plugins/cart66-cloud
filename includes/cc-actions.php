@@ -47,7 +47,13 @@ function cc_enqueue_cart66_wordpress_js() {
 
     wp_enqueue_script( 'jquery' ); // Always include jQuery for the sake of the sidebar widgets
 
-    if( 'cc_product' == $post_type || ( 'client' == $product_loader && cc_page_has_products() ) ) {
+    $product_post_types = array( 'cc_product' );
+
+    if ( has_filter('cc_product_post_types') ) {
+        $product_post_types = apply_filter( 'cc_product_post_types', $product_post_types );
+    }
+
+    if( in_array($post_type, $product_post_types) || ( 'client' == $product_loader && cc_page_has_products() ) ) {
         $cloud = new CC_Cloud_API_V1();
         $source = $cloud->protocol . 'manage.' . $cloud->app_domain . '/assets/cart66.wordpress.js';
         wp_enqueue_script('cart66-wordpress', $source, 'jquery', '1.0', true);

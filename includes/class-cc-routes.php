@@ -35,6 +35,10 @@ class CC_Routes {
         add_rewrite_rule( 'order-history', 'index.php?cc-action=order-history', 'top' );
         add_rewrite_rule( 'profile',       'index.php?cc-action=profile',       'top' );
 
+        // Legacy URL formats
+        add_rewrite_rule( 'view_cart',     'index.php?cc-action=view-cart',     'top' );
+
+        // API end points
         add_rewrite_rule( 'cc-api/v1/products/([^/]*)', 'index.php?cc-action=product-update&cc-sku=$matches[1]', 'top' );
         add_rewrite_rule( 'cc-api/v1/products', 'index.php?cc-action=product-create', 'top' );
 	}
