@@ -39,7 +39,7 @@
 .cart66 .cart66-form .ajax_add_to_cart_message .alert .cc_ajax_message {
   font-family: arial;
   font-size: 12px;
-  display: block !important; 
+  display: block !important;
   line-height: 12px;
   text-align: center;
 }
@@ -55,7 +55,7 @@
   border: 1px solid #BBBBBB;
 }
 
-#content .cart66 .ajax_add_to_cart_message .alert-success, 
+#content .cart66 .ajax_add_to_cart_message .alert-success,
 .cart66 .ajax_add_to_cart_message .alert-success {
   background-color: #eeeeee;
   border-color: #e9e9e9;
@@ -79,13 +79,14 @@
     position: absolute; /* makes the div go into a position that’s absolute to the browser viewing area */
     left: 25%; /* positions the div half way horizontally */
     top: 25%; /* positions the div half way vertically */
-    padding: 25px; 
+    padding: 25px;
     border: 2px solid black;
     background-color: #ffffff;
     width: 50%;
     height: 100px;
     z-index: 100; /* makes the div the top layer, so it’ll lay on top of the other content */
 }
+
 #cc_error_fade {
     display: block;  /* ensures it’s invisible until it’s called */
     position: absolute;  /* makes the div go into a position that’s absolute to the browser viewing area */
@@ -99,3 +100,4 @@
     height: 100%;
     z-index: 90; /* makes the div the second most top layer, so it’ll lay on top of everything else EXCEPT for divs with a higher z-index (meaning the #overlay ruleset) */
 }
+

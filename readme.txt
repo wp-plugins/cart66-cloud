@@ -3,8 +3,8 @@ Contributors: reality66,
 Donate link: http://cart66.com
 Tags: ecommerce, e-commerce, shopping, cart, store, cart66, download, digital, downloadable, sell, inventory, shipping, tax, donations products, sales, shopping cart, cloud, sky
 Requires at least: 3.2
-Tested up to: 3.9.2
-Stable tag: 1.7.3
+Tested up to: 4.1.1
+Stable tag: 2.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -12,13 +12,28 @@ Cart66 Cloud gives you everything you need for a secure and PCI compliant store 
 
 == Description ==
 
-Cart66 Cloud let's you sell anything and handles all the details of keeping your store secure. Sell digital files, ship products, and even sell memberships and subscriptions. Cart66 Cloud includes a built-in recurring billing engine and support for 50 payment gateways. Membership management features to restrict access to content on your site is included too! Unlike other e-commerce plugins where you have to buy add-ons and worry about SSL certificates and security scans, Cart66 Cloud gives you everything you need all in one easy to use package. We even handle all of the [requirements for PCI compliance](http://cart66.com/blog/what-you-need-to-know-about-pci-compliance/ "PCI Compliance") for you so you don't have to do anything but start selling.
+Cart66 Cloud let's you sell anything and handles all the details of keeping your store secure. Sell digital files, ship products, and even sell memberships and subscriptions. Cart66 Cloud includes a built-in recurring billing engine and support for over 70 payment gateways. Membership management features to restrict access to content on your site is included too! Unlike other e-commerce plugins where you have to buy add-ons and worry about SSL certificates and security scans, Cart66 Cloud gives you everything you need all in one easy to use package. We even handle all of the [requirements for PCI compliance](http://cart66.com/blog/what-you-need-to-know-about-pci-compliance/ "PCI Compliance") for you so you don't have to do anything but start selling.
 
 [vimeo http://vimeo.com/83884705]
 
 = Features =
 
-Cart66 Cloud is the most secure way to sell with WordPress and provides a full set of e-commerce features including:
+Cart66 Cloud has been updated with some great new features! 
+
+- Built-in product catalog with unlimted categories
+- Built-in image gallery for products
+
+Checkout the new product features and image gallery in Cart66
+
+[youtube https://www.youtube.com/watch?v=GKLP1adYpfc]
+
+Quick overview of the new Cart66 product catalog 
+
+[youtube https://www.youtube.com/watch?v=WDFMC-BXRVg]
+
+You do not need a special e-commerce theme to use Cart66. All of these features can easily be set up in any theme. Take a look at the free, default [Twenty Fifteen theme with Cart66](http://demo.cart66.com/twentyfifteen/) 
+
+Cart66 is still the most secure way to sell anything with WordPress and continues to provide a full set of e-commerce features all together in one awesome bundle:
 
 - Built-in recurring billing engine that can be used with all supported gateways
 - Customer accounts with order history, stored credit cards, and address book
@@ -26,7 +41,7 @@ Cart66 Cloud is the most secure way to sell with WordPress and provides a full s
 - Sell digital files and we'll securely host and deliver them for you
 - Sell physical products
 - Create products with unlimited variations
-- Tons of payment gateways included (50 gateways in 71 countries and counting...)
+- Tons of payment gateways included (77 gateways in 82 countries and counting...)
 - Your secure pages are skinned with your WordPress theme so they look exactly like the rest of your WordPress site
 - Taxes
 - Shipping
@@ -37,13 +52,15 @@ Cart66 Cloud is the most secure way to sell with WordPress and provides a full s
 - and more...
 
 == Screenshots ==
-1. Products: No matter what type of products you want to sell, we’ve got you covered. No extra extensions or add-ons needed.
-2. Product details: unlimited variations, attach files, set custom text for receipts and much more...
-3. Digital products: Upload and attach one or more files to a product. We'll securely store and deliver your files too!
-4. Live carts: Watch people shop in real-time
-5. Subscription management: Get a quick look at which memberships and subscriptions are expiring or past due. Edit orders, resend email receipts and more!
-6. Customer communication: Drip content, send follow up emails, send special coupons after buying specific products all with beautiful HTML emails!
-7. Customer portal: Allow your customers to sign in and see their order history, manage their subscriptions and update their saved credit cards.
+1. Cart66 product catalog showing featured products
+2. Cart66 product image gallery with zoom
+3. Products: No matter what type of products you want to sell, we’ve got you covered. No extra paid extensions or add-ons needed.
+4. Product details: unlimited variations, attach files, set custom text for receipts and much more...
+5. Digital products: Upload and attach one or more files to a product. We'll securely store and deliver your files too!
+6. Live carts: Watch people shop in real-time
+7. Subscription management: Get a quick look at which memberships and subscriptions are expiring or past due. Edit orders, resend email receipts and more!
+8. Customer communication: Drip content, send follow up emails, send special coupons after buying specific products all with beautiful HTML emails!
+9. Customer portal: Allow your customers to sign in and see their order history, manage their subscriptions and update their saved credit cards.
 
 == Installation ==
 
@@ -61,7 +78,7 @@ To install Cart66 Cloud, log in to your WordPress admin panel, go to the Plugins
 
 Type "Cart66 Cloud" in the search field then click the "Search Plugins" button. You will see the Cart66 Cloud plugin in the search results. To install Cart66 Cloud simply click the "Install Now" link. After confirming that you do want to install the plugin, WordPress will automatically download and install Cart66 Cloud directly on your WordPress website.
 
-Once the Cart66 Cloud plugin is installed, you may want to visit [our tutorials](http://cart66.com/cloud-docs/) for more information on getting started.
+Once the Cart66 Cloud plugin is installed, you may want to visit [our tutorials](http://help.cart66.com) for more information on getting started.
 
 = Manual installation =
 
@@ -73,15 +90,19 @@ If you would prefer to manually install Cart66 Cloud, you will need to download 
 
 = Upgrading =
 
-When new versions of Cart66 Cloud are released, WordPress will notify you about the available update. You can update to the latest version of the Cart66 Cloud plugin by selecting to do an automatic updates. It is always a good idea to backup your site before doing any updates of any kind including updating plugins.
+**Before upgrading to Cart66 2.0** please note that all of the membership access and content restriction functionality has been moved out of the core plugin and is now available as a free, optional add-on. You can [download the Cart66 Members Add-On here](http://cart66.com/add-ons/cart66-members.zip "Cart66 Members Add-On").
 
-Cart66 Cloud will remember all of your settings and products after updating so you will not have to re-enter your product information or anything else.
+Please be sure to make a back up of your site and database before upgrading and read the article [Upgrading to Cart66 2.0](http://help.cart66.com/article/336-upgrading-to-cart66-2-0 "Upgrading to Cart66 2.0") for more details on upgrading from Cart66 1.x.
+
+When new versions of Cart66 are released, WordPress will notify you about the available update. You can update to the latest version of the Cart66 plugin by selecting to do an automatic updates. It is always a good idea to backup your site before doing any updates of any kind including updating plugins.
+
+Cart66 will remember all of your settings and products after updating so you will not have to re-enter your product information or anything else.
 
 == Frequently Asked Questions ==
 
 = Where can I find Cart66 Cloud documentation? =
 
-You will find detailed instructions in our [Cart66 Cloud documentation](http://cart66.com/cloud-docs). We also have a growing list of [video tutorials](http://cart66.com/cloud-videos/). Checkout [our blog](http://cart66.com/blog) for news and other updates.
+You will find detailed instructions in our [Cart66 Cloud documentation](http://help.cart66.com).
 
 = What is PageSlurp? =
 
@@ -92,6 +113,21 @@ PageSlurp is the technology that we invented to provide a secure and PCI complia
 PCI Compliance is a set of requirements that your business needs to meet in order to accept credit card payments. If you are using Cart66 Cloud for your e-commerce, then your website is PCI compliant. If you are not using Cart66 Cloud then you need to handle all of the PCI requirements on your own. Becoming PCI compliant on your own is very expensive and challenging. For more information about PCI compliance, see [What you need to know about PCI compliance](http://cart66.com/blog/what-you-need-to-know-about-pci-compliance/ "PCI Compliance").
 
 == Changelog ==
+
+= 2.0 - 3/17/2015 =
+
+- New: Product catalog with unlimited categories
+- New: Product image gallery
+- New: Product post type 
+- New: Product pages automatically created when products are created 
+- New: Improved communication with secure dashboard
+- New: Easily duplicate products with one click
+- New: Customize button text for each product
+- New: Taxamo integration to handle new VAT requirements
+- New: Hurricane affiliate software integration
+- New: Page templates available for theme developers
+- Changed: Membership access managed in new free Cart66 Members add-on 
+- Changed: Code refactored to meet WordPress coding standards
 
 = 1.7.3 - 8/7/2014 =
 
@@ -233,6 +269,10 @@ PCI Compliance is a set of requirements that your business needs to meet in orde
 - Initial release of the Cart66 Cloud plugin for WordPress e-commerce
 
 == Upgrade Notice ==
+
+= 2.0 =
+
+**Before upgrading** from Cart66 1.x please review our help article Upgrading to Cart66 2.0 at http://help.cart66.com
 
 = 1.0 =
 
