@@ -37,6 +37,9 @@ class CC_Routes {
 
         // Legacy URL formats
         add_rewrite_rule( 'view_cart',     'index.php?cc-action=view-cart',     'top' );
+        add_rewrite_rule( 'sign_in',       'index.php?cc-action=sign-in',       'top' );
+        add_rewrite_rule( 'sign_out',      'index.php?cc-action=sign-out',      'top' );
+        add_rewrite_rule( 'order_history', 'index.php?cc-action=order-history', 'top' );
 
         // API end points
         add_rewrite_rule( 'cc-api/v1/products/([^/]*)', 'index.php?cc-action=product-update&cc-sku=$matches[1]', 'top' );

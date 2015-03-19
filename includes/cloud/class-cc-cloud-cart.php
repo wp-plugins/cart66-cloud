@@ -103,7 +103,41 @@ class CC_Cloud_Cart {
         }
 
         $summary = json_decode( $response['body'] );
+
         return $summary;
+    }
+
+    /**
+     * Return the number of items currently in the shopping cart
+     *
+     * @return int
+     */
+    public function item_count() {
+        $count = 0;
+        $cart_key = $this->get_cart_key( false );
+        if( $cart_key ) {
+            $cart = $this->summary( $cart_key );
+            $count = $cart->item_count;
+        }
+
+        return $count;
+    }
+
+    /**
+     * Return the subtotal of items currently in the shopping cart
+     *
+     * @return int
+     */
+    public function subtotal() {
+        $count = 0;
+        $cart_key = $this->get_cart_key( false );
+        if( $cart_key ) {
+            $cart = $this->summary( $cart_key );
+            CC_Log::write( 'Cart summary: ' . print_r( $cart, true ) );
+            $count = $cart->subtotal;
+        }
+
+        return $count;
     }
 
 

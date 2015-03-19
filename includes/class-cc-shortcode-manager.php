@@ -41,6 +41,29 @@ class CC_Shortcode_Manager {
         return $out;
     }
 
+    /**
+     * Return a buy now link for the product with the given sku
+     *
+     * $args['sku'] => The sku for the product
+     *
+     * @param array $args 
+     * @param string $content The link text
+     * @return string Buy now anchor link
+     */
+    public static function cc_product_link( $args, $content ) {
+        $product_sku = isset($args['sku']) ? $args['sku'] : false;
+        $css_class = isset($args['class']) ? $args['sku'] : '';
+        $link = "link not available for product with sku: $product_sku";
+        if ( $product_sku ) {
+            $subdomain = CC_Cloud_Subdomain::load_from_wp();
+            if ( $subdomain ) {
+                $url = 'https://' . $subdomain . '.cart66.com/buy/' . $product_sku;
+                $link = '<a href="' . $url . '" class="' . $css_class . '">' . $content . '</a>';
+            }
+        }
+        return $link;
+    }
+
     public static function cc_product_via_api( $args, $content ) {
         $form = '';
         if($error_message = CC_Flash_Data::get( 'api_error' )) {
@@ -202,4 +225,15 @@ class CC_Shortcode_Manager {
 
         return $out;
     }
+
+    public static function cc_cart_item_count( $args, $content ) {
+        $cart = new CC_Cloud_Cart();
+        return $cart->item_count();
+    }
+
+    public static function cc_cart_subtotal( $args, $content ) {
+        $cart = new CC_Cloud_Cart();
+        return $cart->subtotal();
+    }
+
 }

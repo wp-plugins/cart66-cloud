@@ -4,7 +4,8 @@ Donate link: http://cart66.com
 Tags: ecommerce, e-commerce, shopping, cart, store, cart66, download, digital, downloadable, sell, inventory, shipping, tax, donations products, sales, shopping cart, cloud, sky
 Requires at least: 3.2
 Tested up to: 4.1.1
-Stable tag: 2.0.1
+Stable tag: 2.0.2
+
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -114,7 +115,18 @@ PCI Compliance is a set of requirements that your business needs to meet in orde
 
 == Changelog ==
 
-= 2.0.1 - 3/18/2015 =
+= 2.0.2 - 3/18/2015 = 
+
+- New: Use featured image for the catalog grid if no product images are provided
+- New: Added view for product pages that have no images in the gallery
+- New: Added product post type selector to enable products to be shown on other custom post types
+- Updated: If there are no product images or featured images, do not show the gallery at all
+- Updated: Added legacy URL formats for sign_in, sign_out, view_cart, andn order_history
+- Fixed: cc_cart_item_count shortcode
+- Fixed: cc_cart_subtotal shortcode
+- Fixed: cc_product_link shortcode
+
+= 2.0.1 - 3/17/2015 =
 
 - Updated: Client side product loader enhancements
 - Fix: Include legacy URLs for view cart redirect

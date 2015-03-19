@@ -163,6 +163,11 @@ ul.cc-product-list .cc-button-primary:active {
     margin-top: 3px;
 }
 
+.cc-product-form-no-gallery {
+    float: left;
+    padding: 0px 35px 35px 0px;
+}
+
 
 /** Pagination styles **/
 .cart66-pagination { clear: both; }

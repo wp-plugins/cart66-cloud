@@ -111,7 +111,7 @@ function cc_list_product_image_slots( $cpt = false ){
 	return $images;
 }
 
-function cc_get_product_image_ids( $post_id = false ){
+function cc_get_product_image_ids( $post_id = false, $fall_back = false ){
 	global $post;
 	$post_id = ($post_id) ? $post_id : $post->ID;
 
@@ -124,12 +124,19 @@ function cc_get_product_image_ids( $post_id = false ){
         }
 	}
 
+    // If there are no product images, see about loading up the featured image
+    if ( $fall_back && 0 == count( $product_images ) ) {
+		if ( $post_meta = get_post_meta( $post_id, '_thumbnail_id', true ) ) {
+			$product_images[ 'image1' ] = $post_meta;
+        }
+    }
+
 	return $product_images;
 }
 
-function cc_get_product_image_sources( $size = 'cc-gallery-full', $id = false, $full_info = false ) {
+function cc_get_product_image_sources( $size = 'cc-gallery-full', $id = false, $fall_back = false, $full_info = false ) {
 	$sources = array();
-    $images = cc_get_product_image_ids( $id );
+    $images = cc_get_product_image_ids( $id, $fall_back );
 
     foreach($images as $key => $value) {
 
@@ -152,12 +159,16 @@ function cc_get_product_image_sources( $size = 'cc-gallery-full', $id = false, $
  * - The full size gallery image
  * - The full size image for the lightbox
  *
+ * If no product images are set, fall back to use featured image if 
+ * $fall_back_to_featured_image is TRUE, default is FALSE
+ *
  * @param int $post_id The id of the product post to which the images are attached
+ * @param boolean $fall_back_to_featured_image (optional, default: FALSE)
  * @return array
  */
-function cc_get_product_gallery_image_sources( $post_id ) {
+function cc_get_product_gallery_image_sources( $post_id, $fall_back_to_featured_image = false ) {
 	$sources = array();
-    $images = cc_get_product_image_ids( $post_id );
+    $images = cc_get_product_image_ids( $post_id, $fall_back_to_featured_image );
 
     foreach( $images as $key => $attachment_id ) {
         $gallery_info = wp_get_attachment_image_src( $attachment_id, 'cc-gallery-full' );

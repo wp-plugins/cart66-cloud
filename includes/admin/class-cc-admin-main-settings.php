@@ -34,6 +34,7 @@ class CC_Admin_Main_Settings extends CC_Admin_Setting {
             'secret_key' => '',
             'add_to_cart_redirect_type' => '',
             'product_loader' => '',
+            'product_post_types' => '',
             'shop_name' => 'Shop',  
             'custom_css' => '',
             'default_css' => 'yes',
@@ -96,6 +97,12 @@ class CC_Admin_Main_Settings extends CC_Admin_Setting {
         $slurp_mode->set_selected( $option_values[ 'slurp_mode' ] );
         $main_section->add_field( $slurp_mode );
          */
+
+        // Add custom post type selector
+        $post_types = $option_values[ 'product_post_types' ];
+        $product_post_types = new CC_Admin_Settings_Post_Type_Selector( __('Product post types', 'cart66'), 'product_post_types' );
+        $product_post_types->description = __( 'Select post types that will contain product order forms', 'cart66' );
+        $main_section->add_field( $product_post_types );
 
         // Add custom css field
         $css = $option_values[ 'custom_css' ];

@@ -22,8 +22,8 @@ class CC_Admin_Settings_Input_Group extends CC_Admin_Settings_Field {
         $this->options[] = $option;
     }
 
-    public function new_option ( $display, $value, $is_selected=false ) {
-        $option = new CC_Admin_Settings_Input_Option( $display, $value, $is_selected);
+    public function new_option ( $display, $value, $is_selected = false, $is_enabled = true ) {
+        $option = new CC_Admin_Settings_Input_Option( $display, $value, $is_selected, $is_enabled );
         $this->add_option( $option );
     }
 

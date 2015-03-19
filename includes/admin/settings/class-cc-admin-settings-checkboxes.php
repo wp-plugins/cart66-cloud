@@ -14,9 +14,14 @@ class CC_Admin_Settings_Checkboxes extends CC_Admin_Settings_Input_Group {
         $field .= '<legend class="screen-reader-text"><span>' . $this->title . '</span></legend>';
 
         foreach( $this->options as $option ) {
-            $checked = $option->is_selected ? ' checked="checked"' : '';
+            $checked  = $option->is_selected ? ' checked="checked"' : '';
+            $disabled = $option->is_enabled ? '' : 'disabled="disabled"';
+
             $field .= '<label for="' . $args['option_name'] . '_' . $option->value . '">';
-            $field .= '<input name="' . $args['option_name'] . '[' . $this->key . '][]" type="checkbox" id="' . $args['option_name'] . '_' . $option->value . '" value="' . $option->value . '"' . $checked . '>';
+            $field .= '<input name="' . $args['option_name'] . '[' . $this->key . '][]" type="checkbox"';
+            $field .= ' id="' . $args['option_name'] . '_' . $option->value . '" value="' . $option->value . '"';
+            $field .= $checked . $disabled;
+            $field .= '>';
             $field .= $option->display;
             $field .= '</label><br />';
         }

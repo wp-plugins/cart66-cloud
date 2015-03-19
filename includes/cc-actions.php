@@ -21,13 +21,23 @@ function cc_page_has_products() {
     $has_products = false;
     $post_type = get_post_type();
 
+    $product_post_types = CC_Admin_Setting::get_option( 'cart66_main_settings', 'product_post_types' );
+    $product_post_types[] = 'cc_product';
+
+    if ( has_filter('cc_product_post_types') ) {
+        $product_post_types = apply_filter( 'cc_product_post_types', $product_post_types );
+    }
+
     // Check if this is the cart66 product post type
-    if( 'cc_product' == $post_type ) {
+    if( in_array( $post_type, $product_post_types ) ) {
         $has_products = true;
+        CC_Log::write( "This is a page with products because it is a post type know to hold products: $post_type" . print_r( $product_post_types, true ) );
     } 
+
     // Check if this is a post containing a cart66 product shortcode
     elseif ( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'cc_product' )  ) {
         $has_products = true;
+        CC_Log::write( 'This is a page with products because it has a cc_product shortcode' );
     }
 
     return $has_products;
@@ -53,7 +63,7 @@ function cc_enqueue_cart66_wordpress_js() {
         $product_post_types = apply_filter( 'cc_product_post_types', $product_post_types );
     }
 
-    if( in_array($post_type, $product_post_types) || ( 'client' == $product_loader && cc_page_has_products() ) ) {
+    if( in_array( $post_type, $product_post_types ) || ( 'client' == $product_loader && cc_page_has_products() ) ) {
         $cloud = new CC_Cloud_API_V1();
         $source = $cloud->protocol . 'manage.' . $cloud->app_domain . '/assets/cart66.wordpress.js';
         wp_enqueue_script('cart66-wordpress', $source, 'jquery', '1.0', true);
