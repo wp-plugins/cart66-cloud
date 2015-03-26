@@ -19,11 +19,10 @@ class CC_Cloud_URL {
 
             if ( $page_id > 0 ) {
                 $return_url = get_permalink( $page_id );
+                $encoded_return_url = empty( $return_url ) ? '' : '?return_url=' . urlencode( $return_url );
+                $url .=  $encoded_return_url;
             }
 
-            $encoded_return_url = empty( $return_url ) ? '' : '?return_url=' . urlencode( $return_url );
-
-            $url .=  $encoded_return_url;
         }
 
         return $url;
@@ -66,7 +65,7 @@ class CC_Cloud_URL {
             }
         }
 
-        // CC_Log::write( "Cart Key: $cart_key :: view cart URL: $url" );
+        CC_Log::write( "Cart Key: $cart_key :: view cart URL: $url" );
 
         return $url;
     }
@@ -76,10 +75,10 @@ class CC_Cloud_URL {
      *
      * @return string
      */
-    public function checkout() {
+    public function checkout( $force_create_cart = false ) {
         $url = null;
         $cloud_cart = new CC_Cloud_Cart();
-        $cart_key = $cloud_cart->get_cart_key();
+        $cart_key = $cloud_cart->get_cart_key( $force_create_cart );
         $subdomain_url = self::$cloud->subdomain_url();
 
         if ( $cart_key && $subdomain_url ) {

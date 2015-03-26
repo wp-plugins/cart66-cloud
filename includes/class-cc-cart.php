@@ -157,7 +157,7 @@ class CC_Cart {
 
             header('HTTP/1.1 201 Created', true, 201);
             header('Content-Type: application/json');
-            echo json_encode($out);
+            echo json_encode( $out );
 
             do_action('cc_after_add_to_cart');
         }

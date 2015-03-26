@@ -111,7 +111,8 @@ class CC_Product extends CC_Model {
 
     }
 
-    public function create_post( $sku ) {
+    public function create_post( $sku, $content = '', $excerpt = '' ) {
+        $post_id = null;
         $search_results = CC_Cloud_Product::search( $sku );
         if ( is_array( $search_results ) && count( $search_results ) ) {
             $product_info = array_shift( $search_results );
@@ -129,6 +130,14 @@ class CC_Product extends CC_Model {
                         'post_status' => 'publish',
                         'post_type' => 'cc_product'
                     );
+
+                    if ( ! empty( $content ) ) {
+                        $post_data['post_content'] = $content;
+                    }
+
+                    if ( ! empty( $excerpt ) ) {
+                        $post_data['post_excerpt'] = $excerpt;
+                    }
 
                     CC_Log::write( 'About to create cart66 product post with this post data: ' . print_r( $post_data, true ) );
                     $post_id = wp_insert_post( $post_data );
@@ -154,6 +163,7 @@ class CC_Product extends CC_Model {
             CC_Log::write( 'Unable to retrieve product information for SKU: ' . $sku );
         }
 
+        return $post_id;
     }
 
     /**
@@ -171,5 +181,76 @@ class CC_Product extends CC_Model {
             $id = $post->ID;
         }
         return $id;
+    }
+
+    /**
+     * Attach a remote image to a the post with the given post id
+     *
+     * If successful, return the id of the attachment otherwise return WP_Error
+     *
+     * @param int $post_id
+     * @param string $url URL to remote image
+     * @return int or WP_Error
+     */
+    public function attach_image_to_post( $post_id, $url ) {
+        require_once(ABSPATH . 'wp-admin' . '/includes/image.php');
+        require_once(ABSPATH . 'wp-admin' . '/includes/file.php');
+        require_once(ABSPATH . 'wp-admin' . '/includes/media.php');
+
+        $tmp = download_url( $url );
+        $file_info = array( 'name' => basename( $url ), 'tmp_name' => $tmp );
+
+        // Abort if the file download failed
+        if ( is_wp_error( $tmp ) ) {
+            @unlink( $file_info[ 'tmp_name' ] );
+            return $tmp;
+        }
+
+        cc_add_gallery_image_sizes(); // Add the custom image sizes
+        $attachment_id = media_handle_sideload( $file_info, $post_id );
+        CC_Log::write( 'Media handle sideload attachment id: ' . print_r( $attachment_id, true ) );
+
+        // Abort if the sideload failed
+        if ( is_wp_error( $attachment_id ) ) {
+            @unlink( $file_info['tmp_name'] );
+        }
+        else {
+            $metadata = wp_get_attachment_metadata( $attachment_id );
+            // CC_Log::write( 'Metadata: ' . print_r( $metadata, true ) );
+            $upload_dir = wp_upload_dir();
+            $file = $upload_dir['path'] . '/' . $metadata['file'];
+        }
+
+        return $attachment_id;
+    }
+
+    public function attach_cellerciser_images( $post_id ) {
+        $urls = array(
+            '_product_image_1' => 'http://cart66-com.s3.amazonaws.com/images/fast-track/half-fold.png',
+            '_product_image_2' => 'http://cart66-com.s3.amazonaws.com/images/fast-track/half-fold-legs.jpg',
+            '_product_image_3' => 'http://cart66-com.s3.amazonaws.com/images/fast-track/half-fold-springs-bottom.jpg',
+            '_product_image_4' => 'http://cart66-com.s3.amazonaws.com/images/fast-track/half-fold-springs.jpg',
+            '_product_image_5' => 'http://cart66-com.s3.amazonaws.com/images/fast-track/half-fold-closed.jpg'
+        );
+
+        foreach( $urls as $meta_key => $url ) {
+            $attachment_id = $this->attach_image_to_post( $post_id, $url );
+            if ( is_numeric( $attachment_id ) ) {
+                update_post_meta( $post_id, $meta_key, $attachment_id );
+            }
+        }
+
+    }
+
+    public function cellerciser_content() {
+        $content = '<h2>The Perfect Exercise!</h2>';
+        $content .= '<p>People of all ages and sizes are enjoying the results of Cellercise – the zero-impact workout that <strong>burns over 700 calories per hour</strong>, melts fat, builds muscle and provides a long list of health-building benefits – including improved digestion, sleep, immunity, coordination, sleep and sex!</p>';
+        $content .= '<p>Typical exercise is limited to specific muscles or muscle groups. It works by applying weight on specific muscles or muscle groups, generally by lifting weight away from gravity. Cellercise works by increasing the weight of gravity on <strong>every cell of your body over 100 times per minute</strong>. That means every muscle, bone, ligament, tendon, connective tissue, even the collagen and skin. The whole body begins to grow stronger, leaner, and more toned from the inside out.</p>';
+        return $content;
+    }
+
+    public function cellerciser_excerpt() {
+        $excerpt = 'The perfect exercise to gain strength and lose weight.';
+        return $excerpt;
     }
 }

@@ -6,8 +6,8 @@
  * @since 2.0
  */
 
-$thumbs = cc_get_product_thumb_sources( 'cc-gallery-thumb', $post->ID );
-$images = cc_get_product_image_sources( 'cc-gallery-full', $post->ID );
+$thumbs = cc_get_product_thumb_sources( $post->ID );
+$images = cc_get_product_gallery_image_sources( $post->ID );
 ?>
 
 <header class="entry-header">

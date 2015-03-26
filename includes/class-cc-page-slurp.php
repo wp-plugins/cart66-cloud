@@ -88,8 +88,8 @@ class CC_Page_Slurp {
         $order_id = '';
         $receipt = '';
 
-        if ( isset( $_REQUEST['cc_order_id'] ) ) {
-            $order_id = $_REQUEST['cc_order_id'];
+        if ( isset( $_GET['cc_order_id'] ) ) {
+            $order_id = $_GET['cc_order_id'];
             try {
                 $receipt = CC_Cloud_Receipt::get_receipt_content( $order_id );
                 do_action('cc_load_receipt', $order_id);
@@ -129,7 +129,7 @@ class CC_Page_Slurp {
     public static function create_slurp_page() {
         $page_slurp_id = self::slurp_page_id();
 
-        if ( !$page_slurp_id ) {
+        if ( ! $page_slurp_id ) {
             $page = array(
                 'post_title' => '{{cart66_title}}',
                 'post_content' => '{{cart66_content}}',
@@ -142,7 +142,8 @@ class CC_Page_Slurp {
             );
             $page_slurp_id = wp_insert_post( $page );
             CC_Log::write("Created page slurp template page with ID: $page_slurp_id");
-        } else {
+        } 
+        else {
             $page = array(
                 'ID' => $page_slurp_id,
                 'post_title' => '{{cart66_title}}',
@@ -157,6 +158,24 @@ class CC_Page_Slurp {
         }
 
         return $page_slurp_id;
+    }
+
+    public static function set_query_to_slurp( $wp_query ) {
+        if ( $wp_query->is_main_query() ) {
+            $slurp_id = self::slurp_page_id();
+            CC_Log::write( "Setting query to use slurp ID: $slurp_id" );
+            $wp_query->set( 'post_type', 'page' );
+            $wp_query->set( 'page_id', $slurp_id );
+        }
+    }
+
+    /**
+     * Render receipt page when called from API endpoint
+     */
+    public function show_receipt( $order_id ) {
+        $receipt = CC_Cloud_Receipt::get_receipt_content( $order_id );
+        do_action('cc_load_receipt', $order_id);
+        $content = str_replace('{{cart66_content}}', $receipt, $content);
     }
 
 }

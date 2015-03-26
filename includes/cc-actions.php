@@ -2,12 +2,25 @@
 
 /** Cart66 Cloud activation process **/
 function cc_activate() {
-    CC_Log::write( 'Cart66 Cloud has been activated. Flushing rewrite rules' );
-    add_action( 'admin_init', 'flush_rewrite_rules' );
+    CC_Log::write( 'Cart66 Cloud has been activated.' );
+
+    // Add Cart66 endpoints and routes
+    CC_Routes::add_routes();
+
+    // Flush rewrite rules after adding new routes
+    cc_flush_rewrite_rules();
+
+    // Attempt to create page slurp template during plugin activation
+    CC_Page_Slurp::create_slurp_page();
 }
 
 function cc_deactivate() {
-    CC_Log::write( 'Cart66 Cloud has been deactivated. Flushing rewrite rules' );
+    CC_Log::write( 'Cart66 Cloud has been deactivated.' );
+    cc_flush_rewrite_rules();
+}
+
+function cc_flush_rewrite_rules() {
+    CC_Log::write( 'Flushig rewrite rules now' );
     flush_rewrite_rules();
 }
 
@@ -31,7 +44,7 @@ function cc_page_has_products() {
     // Check if this is the cart66 product post type
     if( in_array( $post_type, $product_post_types ) ) {
         $has_products = true;
-        CC_Log::write( "This is a page with products because it is a post type know to hold products: $post_type" . print_r( $product_post_types, true ) );
+        CC_Log::write( "This is a page with products because it is a post type known to hold products: $post_type\n" . print_r( $product_post_types, true ) );
     } 
 
     // Check if this is a post containing a cart66 product shortcode
@@ -173,11 +186,13 @@ function cc_migration_notice() {
     if ( CC_Admin_Notifications::show( 'cart66_migration' ) ) {
         ?>
         <div class="error">
-            <p><strong><?php _e( 'Migrate To Cart66 2.0', 'cart66' ); ?></strong></p>
-            <p>
-                <?php _e( 'You have just installed Cart66 2.0 and will need to migrate your old Cart66 settings.', 'cart66' ); ?><br>
-                <?php _e( 'Would you like to migrate your Cart66 settings now?', 'cart66' ); ?>
-            </p>
+            <p><strong><?php _e( 'Migrating To Cart66 2.0', 'cart66' ); ?></strong></p>
+
+            <p><?php _e( 'The membership content restriction features have been moved into their own free plugin add-on.', 'cart66' ); ?><br>
+            <?php _e( 'If you are using content restriction features please <a href="http://cart66.com/add-ons/cart66-members-latest.zip">download and install the Cart66 Members add-on</a>.', 'cart66'); ?></p>
+
+            <p><?php _e( 'Would you like to migrate your old Cart66 settings to Cart66 2.0 now?', 'cart66' ); ?></p>
+
             <p>
                 <a href="http://cart66.com/tutorials/cart66-migration" class="button"><?php _e( 'More information', 'cart66' ); ?></a>
                 <a href="<?php echo add_query_arg( 'cc-task', 'migrate_settings' ); ?>" class="button"><?php _e('Migrate Settings', 'cart66'); ?></a>

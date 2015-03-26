@@ -201,3 +201,11 @@ function cc_url() {
 
     return $url;
 }
+
+function cc_plugin_info() {
+    $data = array(
+        'version' => CC_VERSION_NUMBER
+    );
+
+    return $data;
+}

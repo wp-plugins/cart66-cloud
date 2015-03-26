@@ -34,13 +34,19 @@ function cc_register_product_post_type() {
         'menu_name' => 'Products'
     );
 
+    $show = false;
+
+    if ( 'no' != CC_Admin_Setting::get_option( 'cart66_post_type_settings', 'use_product_post_type' ) ) {
+        $show = true;
+    }
+
     $post_type_attrs = array(
         'labels' => $labels,
-        'public' => true,
+        'public' => $show,
         'publicly_queryable' => true,
-        'show_ui' => true,
-        'show_in_menu' => true,
-        'show_in_nav_menus' => true,
+        'show_ui' => $show,
+        'show_in_menu' => $show,
+        'show_in_nav_menus' => $show,
         'query_var' => true,
         'rewrite' => array( 'slug' => 'products' ),
         'capability_type' => 'post',
@@ -53,5 +59,6 @@ function cc_register_product_post_type() {
     );
 
 	/* Register the post type. */
-	register_post_type( 'cc_product', $post_type_attrs );
+    CC_Log::write( 'Registering Cart66 product post type: cc_product' );
+    register_post_type( 'cc_product', $post_type_attrs );
 }
