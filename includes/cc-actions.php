@@ -7,8 +7,12 @@ function cc_activate() {
     // Add Cart66 endpoints and routes
     CC_Routes::add_routes();
 
+    // Register product post type on activation
+    include_once( CC_PATH . 'includes/cc-product-post-type.php' );
+    cc_register_product_post_type();
+
     // Flush rewrite rules after adding new routes
-    cc_flush_rewrite_rules();
+    add_action( 'shutdown', 'cc_flush_rewrite_rules' );
 
     // Attempt to create page slurp template during plugin activation
     CC_Page_Slurp::create_slurp_page();
@@ -16,7 +20,7 @@ function cc_activate() {
 
 function cc_deactivate() {
     CC_Log::write( 'Cart66 Cloud has been deactivated.' );
-    cc_flush_rewrite_rules();
+    add_action( 'shutdown', 'cc_flush_rewrite_rules' );
 }
 
 function cc_flush_rewrite_rules() {
