@@ -4,7 +4,7 @@ Donate link: http://cart66.com
 Tags: ecommerce, e-commerce, shopping, cart, store, cart66, download, digital, downloadable, sell, inventory, shipping, tax, donations products, sales, shopping cart, cloud, sky
 Requires at least: 3.2
 Tested up to: 4.1.1
-Stable tag: 2.0.3
+Stable tag: 2.0.4
 
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -115,6 +115,13 @@ PCI Compliance is a set of requirements that your business needs to meet in orde
 
 == Changelog ==
 
+= 2.0.4 - 3/31/2015 =
+
+- Update: CC_Library class reintroduced to improve backwards compatibility
+- Update: Improvements to enqueing clients side scripts
+- Update: Add option to use, hide, or disable Cart66 custom post type
+- Update: Further improvements to rewrite rule initialization during activation
+
 = 2.0.3 - 3/26/2015 =
 
 - New: Implement Fast Track to help with installing and setting up store
@@ -125,6 +132,7 @@ PCI Compliance is a set of requirements that your business needs to meet in orde
 - Fix: View cart URL not working if there were never any products in the cart
 - Update: Improve rewrite rule initialization
 - Update: Add notice about Cart66 Members add-on when upgrading to Cart66 2.0
+
 
 = 2.0.2 - 3/18/2015 = 
 

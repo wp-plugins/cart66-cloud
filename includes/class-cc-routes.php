@@ -50,7 +50,7 @@ class CC_Routes {
         add_rewrite_rule( 'cc-api/v1/plugin', 'index.php?cc-action=plugin-info', 'top' );
         add_rewrite_rule( 'cc-api/v1/init', 'index.php?cc-action=save-secret-key', 'top' );
 
-        CC_Log::write( 'Cart66 routes have been added' );
+        // CC_Log::write( 'Cart66 routes have been added' );
 	}
 
 }

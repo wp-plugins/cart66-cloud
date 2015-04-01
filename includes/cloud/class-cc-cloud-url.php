@@ -10,8 +10,9 @@ class CC_Cloud_URL {
         }
     }
 
-    public function sign_in( $send_return_url=false ) {
+    public function sign_in( $send_return_url = false ) {
         $url = self::$cloud->subdomain_url() . 'sign_in';
+        $send_return_url = is_bool( $send_return_url ) ? $send_return_url : false; // A non-boolean may be passed in from CC_Library
 
         if ( $send_return_url ) {
             $return_url = '';
@@ -28,8 +29,9 @@ class CC_Cloud_URL {
         return $url;
     }
 
-    public function sign_out() {
-        $return_url = urlencode( home_url() );
+    public function sign_out( $return_url = '' ) {
+        $return_url = empty( $return_url ) ? home_url() : $return_url;
+        $return_url = urlencode( $return_url );
         $url = self::$cloud->subdomain_url() . 'sign_out?redirect_url=' . $return_url;
         return $url;
     }
@@ -77,6 +79,7 @@ class CC_Cloud_URL {
      */
     public function checkout( $force_create_cart = false ) {
         $url = null;
+        $force_create_cart = is_bool( $force_create_cart ) ? $force_create_cart : false; // A non-boolean may be passed in from CC_Library
         $cloud_cart = new CC_Cloud_Cart();
         $cart_key = $cloud_cart->get_cart_key( $force_create_cart );
         $subdomain_url = self::$cloud->subdomain_url();

@@ -67,8 +67,11 @@ function cc_page_has_products() {
  *   - the product loader type is client
  *   - the $post is a WP_Post
  *   - the post's content has the shortcode cc_product
+ *   - the script is included by $force
+ *
+ * @param boolean $force (optional default: false)
  */
-function cc_enqueue_cart66_wordpress_js() {
+function cc_enqueue_cart66_wordpress_js( $force = false ) {
     $product_loader = CC_Admin_Setting::get_option( 'cart66_main_settings', 'product_loader' );
     $post_type = get_query_var( 'post_type' );
 
@@ -80,7 +83,7 @@ function cc_enqueue_cart66_wordpress_js() {
         $product_post_types = apply_filter( 'cc_product_post_types', $product_post_types );
     }
 
-    if( in_array( $post_type, $product_post_types ) || ( 'client' == $product_loader && cc_page_has_products() ) ) {
+    if( $force || in_array( $post_type, $product_post_types ) || ( 'client' == $product_loader && cc_page_has_products() ) ) {
         $cloud = new CC_Cloud_API_V1();
         $source = $cloud->protocol . 'manage.' . $cloud->app_domain . '/assets/cart66.wordpress.js';
         wp_enqueue_script('cart66-wordpress', $source, 'jquery', '1.0', true);

@@ -38,6 +38,14 @@ class CC_Shortcode_Manager {
 
         $out = "<div class=\"cc_product_wrapper\"><div id='" . $id . "' class='cc_product' data-subdomain='$subdomain' data-sku='$product_sku' data-quantity='$display_quantity' data-price='$display_price' data-display='$display_mode' data-client='$client_loading'>$product_form</div></div>";
 
+        // Enqueue client side script when needed
+        $product_loader = CC_Admin_Setting::get_option( 'cart66_main_settings', 'product_loader' );
+
+        if ( 'client' == $product_loader ) {
+            CC_Log::write( 'Force load client add to cart scripts' );
+            cc_enqueue_cart66_wordpress_js( true );
+        }
+        
         return $out;
     }
 

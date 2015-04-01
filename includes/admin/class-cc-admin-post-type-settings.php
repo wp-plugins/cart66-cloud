@@ -76,8 +76,9 @@ class CC_Admin_Post_Type_Settings extends CC_Admin_Setting {
         // Add option to disable Cart66 custom post type
         $use_product_post_type = new CC_Admin_Settings_Radio_Buttons( __( 'Use product post type', 'cart66' ), 'use_product_post_type' );
         $use_product_post_type->new_option( __( 'Yes (recommended)', 'cart66' ), 'yes', true );
-        $use_product_post_type->new_option( __( 'No', 'cart66' ), 'no', false );
-        $use_product_post_type->description = __( 'If you do not want to use the cart66 catalog, photo gallery, or custom page templates, you can disable the Cart66 custom post type', 'cart66' );
+        $use_product_post_type->new_option( __( 'Hide', 'cart66' ), 'no', false );
+        $use_product_post_type->new_option( __( 'Disable', 'cart66' ), 'disable', false );
+        $use_product_post_type->description = __( 'If you do not want to use the cart66 catalog, photo gallery, or custom page templates, you can turn off the Cart66 custom post type', 'cart66' );
         $use_product_post_type->set_selected( $option_values[ 'use_product_post_type' ] );
         $post_type_section->add_field( $use_product_post_type );
 
