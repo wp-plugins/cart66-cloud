@@ -3,7 +3,7 @@ Contributors: reality66,
 Donate link: http://cart66.com
 Tags: ecommerce, e-commerce, shopping, cart, store, cart66, download, digital, downloadable, sell, inventory, shipping, tax, donations products, sales, shopping cart, cloud, sky
 Requires at least: 3.2
-Tested up to: 4.1.1
+Tested up to: 4.2.2
 Stable tag: 2.0.4
 
 License: GPLv3
