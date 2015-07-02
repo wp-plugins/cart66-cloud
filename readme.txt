@@ -3,17 +3,23 @@ Contributors: reality66,
 Donate link: http://cart66.com
 Tags: ecommerce, e-commerce, shopping, cart, store, cart66, download, digital, downloadable, sell, inventory, shipping, tax, donations products, sales, shopping cart, cloud, sky
 Requires at least: 3.2
-Tested up to: 4.1.1
+Tested up to: 4.2.2
 Stable tag: 2.0.4
 
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Cart66 Cloud gives you everything you need for a secure and PCI compliant store including recurring billing. You don't even need an SSL cert.
+Cart66 Cloud is everything you need for a secure and PCI compliant store. You don't even need your own SSL Certificate.
 
 == Description ==
 
-Cart66 Cloud let's you sell anything and handles all the details of keeping your store secure. Sell digital files, ship products, and even sell memberships and subscriptions. Cart66 Cloud includes a built-in recurring billing engine and support for over 70 payment gateways. Membership management features to restrict access to content on your site is included too! Unlike other e-commerce plugins where you have to buy add-ons and worry about SSL certificates and security scans, Cart66 Cloud gives you everything you need all in one easy to use package. We even handle all of the [requirements for PCI compliance](http://cart66.com/blog/what-you-need-to-know-about-pci-compliance/ "PCI Compliance") for you so you don't have to do anything but start selling.
+Best Value + Best Security
+
+For less than you would pay for a payment gateway add-on and an SSL certificate you get a complete, PCI compliant, WordPress e-commerce system.
+
+This plugin connects your WordPress site to Cart66 Cloud which only costs $95/year. 
+
+Sell digital files, ship products, and even sell memberships and subscriptions. Cart66 Cloud includes a built-in recurring billing engine and support for over 70 payment gateways. Membership management features to restrict access to content on your site is included too! Unlike other e-commerce plugins where you have to buy add-ons and worry about SSL certificates and security scans, Cart66 Cloud gives you everything you need all in one easy to use package. We even handle all of the [requirements for PCI compliance](http://cart66.com/blog/what-you-need-to-know-about-pci-compliance/ "PCI Compliance") for you so you don't have to do anything but start selling.
 
 [vimeo http://vimeo.com/83884705]
 
@@ -21,16 +27,20 @@ Cart66 Cloud let's you sell anything and handles all the details of keeping your
 
 Cart66 Cloud has been updated with some great new features! 
 
+- Automatically create product pages in WordPress
 - Built-in product catalog with unlimted categories
 - Built-in image gallery for products
+- Set up featured products
 
-Checkout the new product features and image gallery in Cart66
+If you only watch one video, watch this one and see how easy it is to create products :)
+
+[youtube https://www.youtube.com/watch?v=fz79RoBBPGc]
 
 [youtube https://www.youtube.com/watch?v=GKLP1adYpfc]
 
-Quick overview of the new Cart66 product catalog 
-
 [youtube https://www.youtube.com/watch?v=WDFMC-BXRVg]
+
+[youtube https://www.youtube.com/watch?v=2GKYWaH6JDM]
 
 You do not need a special e-commerce theme to use Cart66. All of these features can easily be set up in any theme. Take a look at the free, default [Twenty Fifteen theme with Cart66](http://demo.cart66.com/twentyfifteen/) 
 
