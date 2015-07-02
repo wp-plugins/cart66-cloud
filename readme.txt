@@ -15,9 +15,9 @@ Cart66 Cloud is everything you need for a secure and PCI compliant store. You do
 
 Best Value + Best Security
 
-For less than you would pay for a payment gateway add-on and an SSL certificate you get a completee, PCI compliant, WordPress e-commerce system.
+For less than you would pay for a payment gateway add-on and an SSL certificate you get a complete, PCI compliant, WordPress e-commerce system.
 
-This plugin connects your WordPress site to Cart66 Cloud wich only costs $95/year. 
+This plugin connects your WordPress site to Cart66 Cloud which only costs $95/year. 
 
 Sell digital files, ship products, and even sell memberships and subscriptions. Cart66 Cloud includes a built-in recurring billing engine and support for over 70 payment gateways. Membership management features to restrict access to content on your site is included too! Unlike other e-commerce plugins where you have to buy add-ons and worry about SSL certificates and security scans, Cart66 Cloud gives you everything you need all in one easy to use package. We even handle all of the [requirements for PCI compliance](http://cart66.com/blog/what-you-need-to-know-about-pci-compliance/ "PCI Compliance") for you so you don't have to do anything but start selling.
 
