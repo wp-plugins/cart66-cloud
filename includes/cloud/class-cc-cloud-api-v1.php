@@ -27,7 +27,7 @@ class CC_Cloud_API_V1 {
 
         // Redirect to help page if the secret key is not set
         if ( ! isset( $this->secret_key ) ) {
-            wp_redirect( cc_help_secret_key() );
+            throw new CC_Exception_API_InvalidSecretKey('Secret key not set');
         }
 
         return $this->secret_key;
@@ -35,24 +35,29 @@ class CC_Cloud_API_V1 {
 
     public function basic_auth_header( $extra_headers = array() ) {
         $headers = false;
-        $username = $this->get_secret_key();
 
-        if ( strlen( $username ) > 5 ) {
-            $password = ''; // not in use
-            $headers = array(
-                'sslverify' => false,
-                'timeout' => 30,
-                'headers' => array( 'Authorization' => 'Basic ' . base64_encode( $username . ':' . $password ) )
-            );
+        try {
+            $username = $this->get_secret_key();
 
-            if ( is_array( $extra_headers ) ) {
-                foreach ( $extra_headers as $key => $value ) {
-                    $headers['headers'][$key] = $value;
+            if ( strlen( $username ) > 5 ) {
+                $password = ''; // not in use
+                $headers = array(
+                    'sslverify' => false,
+                    'timeout' => 30,
+                    'headers' => array( 'Authorization' => 'Basic ' . base64_encode( $username . ':' . $password ) )
+                );
+
+                if ( is_array( $extra_headers ) ) {
+                    foreach ( $extra_headers as $key => $value ) {
+                        $headers['headers'][$key] = $value;
+                    }
                 }
-            }
 
-            // CC_Log::write( "Sending header for :: Authorization Basic $username:$password" );
-            // CC_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] Built headers :: " . print_r($headers, true));
+                // CC_Log::write( "Sending header for :: Authorization Basic $username:$password" );
+            }
+        }
+        catch ( CC_Exception_API_InvalidSecretKey $e) {
+            CC_Log::write( "Secret key is not set when trying to get basic auth header" );
         }
 
         return $headers;
