@@ -1,5 +1,9 @@
 <?php
 
+function cc_help_secret_key() {
+    return 'http://help.cart66.com/article/366-cart66-cloud-secret-key';
+}
+
 function cc_starts_with( $haystack, $needle ) {
     $length = strlen($needle);
     return (substr($haystack, 0, $length) === $needle);

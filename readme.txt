@@ -65,7 +65,7 @@ Cart66 is still the most secure way to sell anything with WordPress and continue
 == Screenshots ==
 1. Cart66 product catalog showing featured products
 2. Cart66 product image gallery with zoom
-3. Products: No matter what type of products you want to sell, we’ve got you covered. No extra paid extensions or add-ons needed.
+3. Products: No matter what type of products you want to sell, we've got you covered. No extra paid extensions or add-ons needed.
 4. Product details: unlimited variations, attach files, set custom text for receipts and much more...
 5. Digital products: Upload and attach one or more files to a product. We'll securely store and deliver your files too!
 6. Live carts: Watch people shop in real-time
@@ -124,6 +124,10 @@ PageSlurp is the technology that we invented to provide a secure and PCI complia
 PCI Compliance is a set of requirements that your business needs to meet in order to accept credit card payments. If you are using Cart66 Cloud for your e-commerce, then your website is PCI compliant. If you are not using Cart66 Cloud then you need to handle all of the PCI requirements on your own. Becoming PCI compliant on your own is very expensive and challenging. For more information about PCI compliance, see [What you need to know about PCI compliance](http://cart66.com/blog/what-you-need-to-know-about-pci-compliance/ "PCI Compliance").
 
 == Changelog ==
+
+= 2.0.5 - 7/16/2015 =
+
+- Update: Redirect to help page if trying to access cloud account before secret key is set
 
 = 2.0.4 - 3/31/2015 =
 

@@ -17,9 +17,17 @@ class CC_Cloud_API_V1 {
 
     public function get_secret_key() {
 
-        if( !isset( $this->secret_key ) ) {
+        if( ! isset( $this->secret_key ) ) {
             $settings = CC_Admin_Setting::get_options('cart66_main_settings');
-            $this->secret_key = $settings['secret_key'];
+
+            if ( isset( $settings['secret_key'] ) && ! empty( $settings['secret_key'] ) ) {
+                $this->secret_key = $settings['secret_key'];
+            }
+        }
+
+        // Redirect to help page if the secret key is not set
+        if ( ! isset( $this->secret_key ) ) {
+            wp_redirect( cc_help_secret_key() );
         }
 
         return $this->secret_key;
@@ -59,7 +67,10 @@ class CC_Cloud_API_V1 {
         $url = null;
         $subdomain = CC_Cloud_Subdomain::load_from_wp();
 
-        if ( $subdomain ) {
+        if ( ! isset( $subdomain ) || empty( $subdomain ) || 'Not Set' == $subdomain ) {
+            wp_redirect( cc_help_secret_key() );
+            exit();
+        } else {
             $url = $this->protocol . $subdomain . '.' . $this->app_domain . '/';
         }
 

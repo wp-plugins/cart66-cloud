@@ -79,7 +79,10 @@ function product_sort_order( $wp_query ) {
 
 }
 
-add_filter('pre_get_posts', 'product_sort_order');
+$use_product_post_type = CC_Admin_Setting::get_option( 'cart66_post_type_settings', 'use_product_post_type' );
+if ( $use_product_post_type != 'disable' ) {
+    add_filter('pre_get_posts', 'product_sort_order');
+}
 
 function cc_use_page_template( $template ) {
     $post_type = get_post_type();
