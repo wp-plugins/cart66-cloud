@@ -93,6 +93,7 @@ class CC_Page_Slurp {
             try {
                 $receipt = CC_Cloud_Receipt::get_receipt_content( $order_id );
                 do_action('cc_load_receipt', $order_id);
+                $content = apply_filters( 'cc_receipt_content', $content );
             }
             catch(CC_Exception_Store_ReceiptNotFound $e) {
                 $receipt = '<p>Unable to find receipt for the given order number.</p>';

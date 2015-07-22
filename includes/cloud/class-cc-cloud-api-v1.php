@@ -25,7 +25,7 @@ class CC_Cloud_API_V1 {
             }
         }
 
-        // Redirect to help page if the secret key is not set
+        // Throw exception when accessing unset secret key
         if ( ! isset( $this->secret_key ) ) {
             throw new CC_Exception_API_InvalidSecretKey('Secret key not set');
         }
